@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StudyPoint &middot; Tutoring Center</title>
+    <!-- Favicon -->
+ <link rel="icon" href="assets/fav.jpeg" type="image/jpeg">
+    <!-- Tailwind CSS via CDN -->
+    <script src="tailwind.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            primary: '#0F172A',
+                            secondary: '#1E293B',
+                            accent: '#059669',
+                            'accent-light': '#10B981',
+                            'accent-dark': '#047857',
+                            gold: '#F59E0B',
+                            'gold-light': '#FBBF24',
+                            bg: '#F8FAFC',
+                            card: '#FFFFFF',
+                        }
+                    },
+                    fontFamily: {
+                        display: ['"Poppins"', 'system-ui', 'sans-serif'],
+                        body: ['"Inter"', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'float-slow': 'floatSlow 6s ease-in-out infinite',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'bounce-gentle': 'bounceGentle 2.5s ease-in-out infinite',
+                        'pulse-soft': 'pulseSoft 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        floatSlow: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-12px)' } },
+                        slideUp: { '0%': { transform: 'translateY(40px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
+                        bounceGentle: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-6px)' } },
+                        pulseSoft: { '0%, 100%': { opacity: '1' }, '50%': { opacity: '0.7' } },
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(circle at 20% 30%, rgba(5, 150, 105,0.08) 0%, transparent 60%)',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        /* Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #F8FAFC;
+            color: #0F172A;
+        }
+        .dark body {
+            background: #0F172A;
+            color: #F1F5F9;
+        }
+        /* Scrollbar */
+        body::-webkit-scrollbar {
+            width: 6px;
+        }
+        body::-webkit-scrollbar-track {
+            background: #E2E8F0;
+            border-radius: 10px;
+        }
+        body::-webkit-scrollbar-thumb {
+            background: #059669;
+            border-radius: 10px;
+        }
+        .dark body::-webkit-scrollbar-track {
+            background: #1E293B;
+        }
+        /* Navigation */
+        .nav-link {
+            position: relative;
+            font-weight: 500;
+            color: #0F172A;
+            transition: color 0.2s;
+            font-size: 0.875rem;
+        }
+        .dark .nav-link {
+            color: #E2E8F0;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2.5px;
+            background: #059669;
+            transition: width 0.25s ease;
+            border-radius: 3px;
+        }
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+        .nav-link.active {
+            color: #059669 !important;
+        }
+        .dark .nav-link.active {
+            color: #10B981 !important;
+        }
+        /* Dropdown */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 200px;
+            background: #FFFFFF;
+            border-radius: 16px;
+            padding: 0.4rem 0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(12px);
+            transition: all 0.25s ease;
+            z-index: 1000;
+            border: 1px solid #E2E8F0;
+        }
+        .dark .dropdown-menu {
+            background: #1E293B;
+            border-color: #334155;
+        }
+        .dropdown-trigger:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1.2rem;
+            transition: all 0.2s;
+            color: #0F172A;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .dark .dropdown-item {
+            color: #E2E8F0;
+        }
+        .dropdown-item:hover {
+            background: #F1F5F9;
+            color: #059669;
+            padding-left: 1.5rem;
+        }
+        .dark .dropdown-item:hover {
+            background: #334155;
+            color: #10B981;
+        }
+        .dropdown-item i {
+            margin-right: 0.75rem;
+            width: 20px;
+            color: #059669;
+        }
+        /* Mobile Menu */
+        .mobile-menu {
+            background: #FFFFFF;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 0 0 24px 24px;
+        }
+        .dark .mobile-menu {
+            background: #1E293B;
+        }
+        .mobile-menu.open {
+            max-height: 90vh;
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+        .mobile-menu.open::-webkit-scrollbar {
+            display: none;
+        }
+        /* Cards */
+        .tutor-card {
+            background: #FFFFFF;
+            border-radius: 24px;
+            transition: all 0.3s ease;
+            border: 1px solid #E2E8F0;
+        }
+        .dark .tutor-card {
+            background: #1E293B;
+            border-color: #334155;
+        }
+        .tutor-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px -12px rgba(5, 150, 105, 0.25);
+            border-color: #059669;
+        }
+        .btn-primary {
+            background: #059669;
+            color: #FFFFFF;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+        }
+        .btn-primary:hover {
+            background: #047857;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(5, 150, 105, 0.4);
+        }
+        .btn-outline {
+            border: 2px solid #059669;
+            color: #059669;
+            background: transparent;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-outline:hover {
+            background: #059669;
+            color: #FFFFFF;
+            transform: translateY(-2px);
+        }
+        .dark .btn-outline {
+            border-color: #10B981;
+            color: #10B981;
+        }
+        .dark .btn-outline:hover {
+            background: #10B981;
+            color: #0F172A;
+        }
+        .section-badge {
+            display: inline-block;
+            background: rgba(5, 150, 105, 0.12);
+            color: #059669;
+            padding: 0.25rem 1rem;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .dark .section-badge {
+            background: rgba(5, 150, 105, 0.2);
+            color: #10B981;
+        }
+        .section-divider {
+            height: 3px;
+            width: 60px;
+            background: #059669;
+            margin: 0.5rem auto 1.5rem;
+            border-radius: 4px;
+        }
+        /* Hero */
+        .hero-bg {
+            background: linear-gradient(135deg, rgba(236, 253, 245, 0.85) 0%, rgba(209, 250, 229, 0.85) 100%), url('assets/hero_tutoring_center.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .dark .hero-bg {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 41, 59, 0.85) 100%), url('assets/hero_tutoring_center.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .hero-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(5, 150, 105, 0.06);
+            pointer-events: none;
+        }
+        /* Stats */
+        .stat-number {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #059669;
+            line-height: 1;
+        }
+        .dark .stat-number {
+            color: #10B981;
+        }
+        /* Testimonial */
+        .testimonial-card {
+            background: #FFFFFF;
+            border-radius: 24px;
+            padding: 1.8rem;
+            border-left: 5px solid #059669;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+        }
+        .dark .testimonial-card {
+            background: #1E293B;
+        }
+        /* Social Icons */
+        .social-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #F1F5F9;
+            color: #0F172A;
+            transition: all 0.3s;
+        }
+        .social-icon:hover {
+            background: #059669;
+            color: #FFFFFF;
+            transform: translateY(-3px);
+        }
+        .dark .social-icon {
+            background: #1E293B;
+            color: #E2E8F0;
+        }
+        .dark .social-icon:hover {
+            background: #059669;
+            color: #FFFFFF;
+        }
+        /* RTL Support */
+        [dir="rtl"] .ml-auto {
+            margin-left: 0 !important;
+            margin-right: auto !important;
+        }
+        [dir="rtl"] .dropdown-menu {
+            left: auto;
+            right: 0;
+        }
+        [dir="rtl"] .dropdown-item i {
+            margin-right: 0;
+            margin-left: 0.75rem;
+        }
+        [dir="rtl"] .dropdown-item:hover {
+            padding-left: 1.2rem;
+            padding-right: 1.5rem;
+        }
+        /* Tutor avatar placeholder */
+        .tutor-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0 auto;
+            background: #ECFDF5;
+            color: #059669;
+            border: 3px solid #059669/20;
+        }
+        .dark .tutor-avatar {
+            background: #1E293B;
+            border-color: #10B981/30;
+        }
+        /* Result bar */
+        .result-bar {
+            height: 8px;
+            border-radius: 4px;
+            background: #E2E8F0;
+            overflow: hidden;
+        }
+        .dark .result-bar {
+            background: #334155;
+        }
+        .result-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #059669, #10B981);
+        }
+    </style>
+    <style>
+        h1, h2, h3, h4, h5, h6 { font-weight: 600 !important; }
+        p { font-weight: 500 !important; }
+    </style>
+    <style>
+        .hero-bg h1, .hero-bg p, .hero-bg span, .hero-bg h2 {
+            text-shadow: 0 2px 15px rgba(255, 255, 255, 0.9), 0 1px 3px rgba(255, 255, 255, 1) !important;
+        }
+        .dark .hero-bg h1, .dark .hero-bg p, .dark .hero-bg span, .dark .hero-bg h2 {
+            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.9), 0 1px 4px rgba(0, 0, 0, 1) !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ======== NAVIGATION ======== -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-[#0F172A]/95 backdrop-blur border-b border-[#E2E8F0] dark:border-[#1E293B] shadow-sm transition-colors">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="flex items-center justify-between h-20 md:h-22">
+                <!-- Logo -->
+                <a href="index.html" class="flex items-center gap-2.5 group shrink-0">
+                    <div class="w-10 h-10 bg-[#059669] rounded-xl flex items-center justify-center shadow-lg shadow-[#059669]/25 group-hover:scale-105 transition">
+                        <i class="fas fa-brain text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <span class="text-xl md:text-2xl font-display font-extrabold tracking-tight text-[#0F172A] dark:text-white">STUDY<span class="text-[#059669]">POINT</span></span>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav -->
+                <div class="hidden xl:flex items-center gap-1 lg:gap-2 absolute left-1/2 -translate-x-1/2">
+                    <!-- Home Dropdown (with home2 as sub) -->
+                    <div class="dropdown-trigger relative">
+                        <button class="nav-link active px-3 py-2 flex items-center gap-1">
+                            Home <i class="fas fa-chevron-down text-[10px] opacity-60"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="index.html"><i class="fas fa-home"></i> Home 1</a>
+                            <a class="dropdown-item" href="home2.html"><i class="fas fa-home"></i> Home 2</a>
+                        </div>
+                    </div>
+
+                    <a class="nav-link px-3 py-2" href="about.html">About</a>
+                    <a class="nav-link px-3 py-2" href="services.html">Services</a>
+                    <a class="nav-link px-3 py-2" href="courses.html">Courses</a>
+                    <a class="nav-link px-3 py-2" href="tutors.html">Tutors</a>
+                    <a class="nav-link px-3 py-2" href="fees.html">Fees</a>
+                    <a class="nav-link px-3 py-2" href="contact.html">Contact</a>
+
+                    <!-- Dashboard Dropdown -->
+                    <div class="dropdown-trigger relative">
+                        <button class="nav-link px-3 py-2 flex items-center gap-1">
+                            Dashboard <i class="fas fa-chevron-down text-[10px] opacity-60"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="client.html"><i class="fas fa-user"></i> Customer</a>
+                            <a class="dropdown-item" href="admin.html"><i class="fas fa-user-cog"></i> Admin</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Actions -->
+                <div class="hidden xl:flex items-center ml-auto">
+                    <!-- Theme & RTL Toggles -->
+                    <div class="flex items-center gap-1">
+                        <button id="theme-toggle" class="w-9 h-9 rounded-full bg-[#F1F5F9] dark:bg-[#1E293B] text-[#0F172A] dark:text-[#10B981] hover:scale-110 transition flex items-center justify-center">
+                            <i class="fas fa-moon dark:hidden"></i>
+                            <i class="fas fa-sun hidden dark:inline"></i>
+                        </button>
+                        <button id="rtl-toggle" class="w-9 h-9 rounded-full bg-[#F1F5F9] dark:bg-[#1E293B] text-[#0F172A] dark:text-[#10B981] hover:scale-110 transition flex items-center justify-center text-sm font-bold">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                    </div>
+
+                    <!-- Auth Buttons -->
+                    <div class="flex items-center gap-2 ml-3">
+                        <a href="register.html" class="px-5 py-2 bg-[#059669] text-white rounded-full text-sm font-semibold hover:bg-[#047857] transition shadow-md shadow-[#059669]/25">Sign up</a>
+                    </div>
+                </div>
+
+                <!-- Mobile Toggle -->
+                <button id="mobile-toggle" class="xl:hidden w-10 h-10 rounded-full bg-[#059669] text-white flex items-center justify-center shadow-md shadow-[#059669]/25">
+                    <i class="fas fa-bars text-base"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="mobile-menu xl:hidden">
+                <div class="py-3 px-2 space-y-1">
+                    <!-- Home with sub -->
+                    <div class="py-1">
+                        <button onclick="document.getElementById('home-mobile-drop').classList.toggle('hidden'); document.getElementById('home-mobile-icon').classList.toggle('rotate-180')" class="w-full flex items-center justify-between py-2.5 px-4 font-medium text-[#0F172A] dark:text-white bg-[#ECFDF5] dark:bg-[#1E293B] rounded-xl border-l-4 border-[#059669]">
+                            <span>Home</span>
+                            <i id="home-mobile-icon" class="fas fa-chevron-down text-xs opacity-60 transition-transform duration-300"></i>
+                        </button>
+                        <div id="home-mobile-drop" class="hidden pl-4 space-y-1 mt-1">
+                            <a class="block py-2 px-4 font-medium text-[#0F172A] dark:text-white bg-[#ECFDF5] dark:bg-[#1E293B] rounded-xl border-l-4 border-[#059669]" href="index.html"><i class="fas fa-home w-6 text-[#059669]"></i> Home 1</a>
+                            <a class="block py-2 px-4 font-medium text-[#0F172A] dark:text-white hover:bg-[#F1F5F9] dark:hover:bg-[#1E293B] rounded-xl transition" href="home2.html"><i class="fas fa-home w-6 text-[#059669]"></i> Home 2</a>
+                        </div>
+                    </div>
+
+                    <a class="block py-2.5 px-4 font-medium text-[#0F172A] dark:text-white hover:bg-[#F1F5F9] dark:hover:bg-[#1E293B] rounded-xl transition" href="about.html">About</a>
+                    <a class="block py-2.5 px-4 font-medium text-[#0F172A] dark:text-white hover:bg-[#F1F5F9] dark:hover:bg-[#1E293B] rounded-xl transition" href="services.html">Services</a>
+                    <a class="block py-2.5 px-4 font-medium text-[#0F172A] dark:text-white hover:bg-[#F1F5F9] dark:hover:bg-[#1E293B] rounded-xl transition" href="courses.html">Courses</a>
+                    <a class="block py-2.5 px-4 font-medium text-[#0F172A] dark:text-white hover:bg-[#F1F5F9] dark:hover:bg-[#1E293B] rounded-xl transition" href="tutors.html">Tutors</a>
+                    <a class="block py-2.5 px-4 font-medium text-[#0F172A] dark:text-white hover:bg-[#F1F5F9] dark:hover:bg-[#1E293B] rounded-xl transition" href="fees.html">Fees</a>
+                    <a class="block py-2.5 px-4 font-medium text-[#0F172A] dark:text-white hover:bg-[#F1F5F9] dark:hover:bg-[#1E293B] rounded-xl transition" href="contact.html">Contact</a>
+
+                    <!-- Dashboard Mobile -->
+                    <div class="py-1">
+                        <button onclick="document.getElementById('dashboard-mobile-drop').classList.toggle('hidden'); document.getElementById('dashboard-mobile-icon').classList.toggle('rotate-180')" class="w-full flex items-center justify-between py-2.5 px-4 font-medium text-[#0F172A] dark:text-white hover:bg-[#F1F5F9] dark:hover:bg-[#1E293B] rounded-xl transition">
+                            <span>Dashboard</span>
+                            <i id="dashboard-mobile-icon" class="fas fa-chevron-down text-xs opacity-60 transition-transform duration-300"></i>
+                        </button>
+                        <div id="dashboard-mobile-drop" class="hidden pl-4 space-y-1 mt-1">
+                            <a class="block py-2 px-4 font-medium text-[#0F172A] dark:text-white hover:bg-[#F1F5F9] dark:hover:bg-[#1E293B] rounded-xl transition" href="client.html"><i class="fas fa-user w-6 text-[#059669]"></i> Customer</a>
+                            <a class="block py-2 px-4 font-medium text-[#0F172A] dark:text-white hover:bg-[#F1F5F9] dark:hover:bg-[#1E293B] rounded-xl transition" href="admin.html"><i class="fas fa-user-cog w-6 text-[#059669]"></i> Admin</a>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-2 pt-4 mt-3 border-t border-[#E2E8F0] dark:border-[#1E293B]">
+                        <a class="text-center py-2.5 rounded-full font-semibold bg-[#059669] text-white hover:bg-[#047857] transition" href="register.html">Sign up</a>
+                    </div>
+                    <div class="flex gap-2 pt-2">
+                        <button id="mobile-theme-toggle" class="flex-1 py-2 rounded-full bg-[#F1F5F9] dark:bg-[#1E293B] text-[#0F172A] dark:text-[#10B981] text-sm font-medium flex items-center gap-2 justify-center"><i class="fas fa-moon dark:hidden"></i><i class="fas fa-sun hidden dark:inline"></i> Theme</button>
+                        <button id="mobile-rtl-toggle" class="flex-1 py-2 rounded-full bg-[#F1F5F9] dark:bg-[#1E293B] text-[#0F172A] dark:text-[#10B981] text-sm font-medium flex items-center gap-2 justify-center"><i class="fas fa-exchange-alt"></i> RTL</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ======== HERO SECTION ======== -->
+    <section class="min-h-screen flex items-center pt-24 pb-16 md:pt-28 md:pb-20 relative overflow-hidden hero-bg">
+        <div class="hero-shape w-96 h-96 -top-20 -right-20"></div>
+        <div class="hero-shape w-80 h-80 bottom-10 -left-20"></div>
+        <div class="container mx-auto px-4 md:px-6 relative z-10">
+            <div class="max-w-4xl mx-auto text-center animate-slide-up">
+                <span class="section-badge"><i class="fas fa-star text-[10px] mr-1"></i> Top-Rated Tutoring</span>
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-display font-extrabold mt-4 mb-5 leading-tight text-[#0F172A] dark:text-white">
+                    Unlock Your <span class="text-[#059669]">Potential</span> with<br>Expert <span class="text-[#059669]">Tutors</span>
+                </h1>
+                <p class="text-lg md:text-xl text-[#475569] dark:text-[#94A3B8] max-w-2xl mx-auto mb-8">
+                    Personalized tutoring for school students. Math, Science, English &amp; more — taught by passionate educators who care about your success.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="courses.html" class="btn-primary px-8 py-3.5 rounded-full inline-flex items-center gap-2 text-base shadow-lg shadow-[#059669]/25 animate-bounce-gentle">
+                        <i class="fas fa-graduation-cap"></i> Find a Tutor
+                    </a>
+                    <a href="contact.html" class="btn-outline px-8 py-3.5 rounded-full inline-flex items-center gap-2 text-base">Book a Session</a>
+                </div>
+                <div class="mt-10 flex flex-wrap justify-center gap-8 text-sm">
+                    <div class="flex items-center gap-2"><i class="fas fa-check-circle text-[#059669]"></i> <span class="text-[#475569] dark:text-[#94A3B8]">Certified Tutors</span></div>
+                    <div class="flex items-center gap-2"><i class="fas fa-check-circle text-[#059669]"></i> <span class="text-[#475569] dark:text-[#94A3B8]">1-on-1 Sessions</span></div>
+                    <div class="flex items-center gap-2"><i class="fas fa-check-circle text-[#059669]"></i> <span class="text-[#475569] dark:text-[#94A3B8]">Flexible Schedule</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== OUR COURSES ======== -->
+    <section id="courses" class="py-20 bg-white dark:bg-[#0F172A]">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="text-center max-w-3xl mx-auto mb-14">
+                <span class="section-badge">Our Courses</span>
+                <h2 class="text-3xl md:text-4xl font-display font-bold mt-3 text-[#0F172A] dark:text-white">Subjects We <span class="text-[#059669]">Cover</span></h2>
+                <div class="section-divider"></div>
+                <p class="text-[#475569] dark:text-[#94A3B8]">Expert tutoring in a wide range of subjects for all grade levels.</p>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                <div class="bg-[#F8FAFC] dark:bg-[#1E293B] rounded-2xl p-6 text-center border border-[#E2E8F0] dark:border-[#334155] hover:border-[#059669] transition group">
+                    <div class="w-16 h-16 mx-auto rounded-2xl bg-[#059669]/10 flex items-center justify-center text-2xl text-[#059669] mb-4 group-hover:scale-110 transition"><i class="fas fa-calculator"></i></div>
+                    <h4 class="font-bold text-[#0F172A] dark:text-white">Mathematics</h4>
+                    <p class="text-xs text-[#64748B] dark:text-[#94A3B8] mt-1">Algebra, Geometry &amp; Calculus</p>
+                </div>
+                <div class="bg-[#F8FAFC] dark:bg-[#1E293B] rounded-2xl p-6 text-center border border-[#E2E8F0] dark:border-[#334155] hover:border-[#059669] transition group">
+                    <div class="w-16 h-16 mx-auto rounded-2xl bg-[#059669]/10 flex items-center justify-center text-2xl text-[#059669] mb-4 group-hover:scale-110 transition"><i class="fas fa-flask"></i></div>
+                    <h4 class="font-bold text-[#0F172A] dark:text-white">Science</h4>
+                    <p class="text-xs text-[#64748B] dark:text-[#94A3B8] mt-1">Physics, Chemistry &amp; Biology</p>
+                </div>
+                <div class="bg-[#F8FAFC] dark:bg-[#1E293B] rounded-2xl p-6 text-center border border-[#E2E8F0] dark:border-[#334155] hover:border-[#059669] transition group">
+                    <div class="w-16 h-16 mx-auto rounded-2xl bg-[#059669]/10 flex items-center justify-center text-2xl text-[#059669] mb-4 group-hover:scale-110 transition"><i class="fas fa-book-open"></i></div>
+                    <h4 class="font-bold text-[#0F172A] dark:text-white">English</h4>
+                    <p class="text-xs text-[#64748B] dark:text-[#94A3B8] mt-1">Grammar, Writing &amp; Literature</p>
+                </div>
+                <div class="bg-[#F8FAFC] dark:bg-[#1E293B] rounded-2xl p-6 text-center border border-[#E2E8F0] dark:border-[#334155] hover:border-[#059669] transition group">
+                    <div class="w-16 h-16 mx-auto rounded-2xl bg-[#059669]/10 flex items-center justify-center text-2xl text-[#059669] mb-4 group-hover:scale-110 transition"><i class="fas fa-globe"></i></div>
+                    <h4 class="font-bold text-[#0F172A] dark:text-white">Languages</h4>
+                    <p class="text-xs text-[#64748B] dark:text-[#94A3B8] mt-1">Spanish, French &amp; More</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== WHY CHOOSE US ======== -->
+    <section id="why-choose" class="py-20 bg-[#F8FAFC] dark:bg-[#0F172A]">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="text-center max-w-3xl mx-auto mb-14">
+                <span class="section-badge">Why StudyPoint</span>
+                <h2 class="text-3xl md:text-4xl font-display font-bold mt-3 text-[#0F172A] dark:text-white">Why <span class="text-[#059669]">Choose</span> Us</h2>
+                <div class="section-divider"></div>
+                <p class="text-[#475569] dark:text-[#94A3B8]">We make learning enjoyable and effective with personalized attention and proven methods.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-8 text-center border border-[#E2E8F0] dark:border-[#334155] hover:border-[#059669] transition shadow-sm hover:shadow-xl">
+                    <div class="w-20 h-20 mx-auto rounded-2xl bg-[#ECFDF5] dark:bg-[#1E293B] flex items-center justify-center text-3xl text-[#059669] mb-5 border border-[#059669]/20"><i class="fas fa-user-graduate"></i></div>
+                    <h3 class="text-xl font-bold text-[#0F172A] dark:text-white mb-2">Qualified Tutors</h3>
+                    <p class="text-[#475569] dark:text-[#94A3B8] text-sm">All our tutors are certified educators with years of experience in their subjects.</p>
+                </div>
+                <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-8 text-center border border-[#E2E8F0] dark:border-[#334155] hover:border-[#059669] transition shadow-sm hover:shadow-xl">
+                    <div class="w-20 h-20 mx-auto rounded-2xl bg-[#ECFDF5] dark:bg-[#1E293B] flex items-center justify-center text-3xl text-[#059669] mb-5 border border-[#059669]/20"><i class="fas fa-calendar-alt"></i></div>
+                    <h3 class="text-xl font-bold text-[#0F172A] dark:text-white mb-2">Flexible Scheduling</h3>
+                    <p class="text-[#475569] dark:text-[#94A3B8] text-sm">Learn at your own pace with sessions that fit your busy school schedule.</p>
+                </div>
+                <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-8 text-center border border-[#E2E8F0] dark:border-[#334155] hover:border-[#059669] transition shadow-sm hover:shadow-xl">
+                    <div class="w-20 h-20 mx-auto rounded-2xl bg-[#ECFDF5] dark:bg-[#1E293B] flex items-center justify-center text-3xl text-[#059669] mb-5 border border-[#059669]/20"><i class="fas fa-chart-line"></i></div>
+                    <h3 class="text-xl font-bold text-[#0F172A] dark:text-white mb-2">Proven Results</h3>
+                    <p class="text-[#475569] dark:text-[#94A3B8] text-sm">Our students show measurable improvement in grades and test scores.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== COURSES FOR KIDS ======== -->
+    <section id="courses" class="py-20 bg-white dark:bg-[#0F172A] overflow-hidden">
+        <div class="container mx-auto px-4 md:px-6">
+            <h2 class="text-center text-4xl md:text-5xl font-display font-bold mt-3 text-[#0F172A] dark:text-white mb-12">
+                Courses for <span class="relative inline-block text-[#059669]">kids
+                    <svg class="absolute w-full h-3 -bottom-2 left-0 text-[#FCD34D]" viewBox="0 0 100 10" preserveAspectRatio="none" fill="currentColor">
+                        <path d="M0 5 Q 50 10 100 0" stroke="currentColor" stroke-width="3" fill="none" />
+                    </svg>
+                </span>
+            </h2>
+            
+            <div class="flex flex-col lg:flex-row items-center gap-10 lg:gap-14">
+                <!-- Left side: 4 Cards Grid -->
+                <div class="w-full lg:w-3/5 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <!-- Card 1 -->
+                    <div class="bg-[#FFF1E8] dark:bg-[#FFF1E8]/90 rounded-3xl p-6 relative overflow-hidden transition hover:-translate-y-1 shadow-sm hover:shadow-md flex flex-col h-full">
+                        <div class="flex items-start gap-4 mb-3">
+                            <div class="w-14 h-14 flex items-center justify-center rounded-2xl bg-white text-[#0F172A] text-2xl shrink-0 shadow-sm"><i class="fas fa-sun"></i></div>
+                            <div>
+                                <span class="text-xs font-bold text-[#059669] uppercase tracking-wider">Class LKG - 8</span>
+                                <h3 class="text-lg font-bold text-[#0F172A] leading-tight mt-1 min-h-[56px]">Spoken English Program</h3>
+                            </div>
+                        </div>
+                        <p class="text-[#475569] text-sm mb-6">Master fluency in English speaking</p>
+                        <div class="mt-auto">
+                            <a href="#" class="inline-flex items-center justify-center px-6 py-2.5 bg-[#0F172A] text-white text-sm font-semibold rounded-lg hover:bg-[#1E293B] transition">Explore</a>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="bg-[#FEF3C7] dark:bg-[#FEF3C7]/90 rounded-3xl p-6 relative overflow-hidden transition hover:-translate-y-1 shadow-sm hover:shadow-md flex flex-col h-full">
+                        <div class="flex items-start gap-4 mb-3">
+                            <div class="w-14 h-14 flex items-center justify-center rounded-2xl bg-[#E0E7FF] text-[#1E3A8A] text-2xl shrink-0 shadow-sm"><i class="fas fa-comment-alt"></i></div>
+                            <div>
+                                <span class="text-xs font-bold text-[#059669] uppercase tracking-wider">Class LKG - 8</span>
+                                <h3 class="text-lg font-bold text-[#0F172A] leading-tight mt-1 min-h-[56px]">Learn English</h3>
+                            </div>
+                        </div>
+                        <p class="text-[#475569] text-sm mb-6">Level based holistic English Program</p>
+                        <div class="mt-auto">
+                            <a href="#" class="inline-flex items-center justify-center px-6 py-2.5 bg-[#0F172A] text-white text-sm font-semibold rounded-lg hover:bg-[#1E293B] transition">Explore</a>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="bg-[#ECFDF5] dark:bg-[#ECFDF5]/90 rounded-3xl p-6 relative overflow-hidden transition hover:-translate-y-1 shadow-sm hover:shadow-md flex flex-col h-full">
+                        <div class="flex items-start gap-4 mb-3">
+                            <div class="w-14 h-14 flex items-center justify-center rounded-2xl bg-[#D1FAE5] text-[#065F46] text-2xl shrink-0 shadow-sm"><i class="fas fa-calculator"></i></div>
+                            <div>
+                                <span class="text-xs font-bold text-[#059669] uppercase tracking-wider">Class KG - 8</span>
+                                <h3 class="text-lg font-bold text-[#0F172A] leading-tight mt-1 min-h-[56px]">Learn math</h3>
+                            </div>
+                        </div>
+                        <p class="text-[#475569] text-sm mb-6">Turn your child into a Math wizard</p>
+                        <div class="mt-auto">
+                            <a href="#" class="inline-flex items-center justify-center px-6 py-2.5 bg-[#0F172A] text-white text-sm font-semibold rounded-lg hover:bg-[#1E293B] transition">Explore</a>
+                        </div>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="bg-[#F3F4F6] dark:bg-[#F3F4F6]/90 rounded-3xl p-6 relative overflow-hidden transition hover:-translate-y-1 shadow-sm hover:shadow-md flex flex-col h-full">
+                        <div class="flex items-start gap-4 mb-3">
+                            <div class="w-14 h-14 flex items-center justify-center rounded-2xl bg-[#DBEAFE] text-[#EA580C] text-2xl shrink-0 shadow-sm"><i class="fas fa-user-astronaut"></i></div>
+                            <div>
+                                <span class="text-xs font-bold text-[#059669] uppercase tracking-wider">Class 1 - 8</span>
+                                <h3 class="text-lg font-bold text-[#0F172A] leading-tight mt-1 min-h-[56px]">Coding classes</h3>
+                            </div>
+                        </div>
+                        <p class="text-[#475569] text-sm mb-6">Learn to build apps and games, be future ready</p>
+                        <div class="mt-auto">
+                            <a href="#" class="inline-flex items-center justify-center px-6 py-2.5 bg-[#0F172A] text-white text-sm font-semibold rounded-lg hover:bg-[#1E293B] transition">Explore</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right side: Image and Background -->
+                <div class="w-full lg:w-2/5 relative flex justify-center mt-16 lg:mt-0 pb-10 lg:pb-0">
+                    <!-- Decorative background circle -->
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] lg:w-[450px] lg:h-[450px] bg-[#FFF8E7] dark:bg-[#FFF8E7]/10 rounded-full z-0"></div>
+                    
+                    <!-- Decorative Sun Rays -->
+                    <div class="absolute top-0 right-1/4 text-[#FCD34D] text-4xl z-0 transform -rotate-12 opacity-80 animate-pulse-soft"><i class="fas fa-sun"></i></div>
+
+                    <!-- Main Image (Placeholder resembling a student with books) -->
+                    <img src="assets/i.jpg" alt="Happy student" class="relative z-10 w-full max-w-[280px] lg:max-w-sm object-contain drop-shadow-2xl rounded-3xl lg:rounded-full">
+                    
+                    <!-- Floating Icons removed per request -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== THEORY CONTENT ======== -->
+    <section id="theory-content" class="py-20 bg-[#F8FAFC] dark:bg-[#0F172A]/90 border-y border-[#E2E8F0] dark:border-[#334155]/60">
+        <div class="container mx-auto px-4 md:px-6">
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-14">
+                <span class="section-badge">Core Academic Theory</span>
+                <h2 class="text-3xl md:text-4xl font-display font-bold mt-3 text-[#0F172A] dark:text-white">
+                    Master the <span class="text-[#059669]">Theory</span> Behind Every Concept
+                </h2>
+                <div class="section-divider"></div>
+                <p class="text-[#475569] dark:text-[#94A3B8]">
+                    Going beyond rote memorization. Our curriculum breaks down complex school subjects into intuitive principles, step-by-step derivations, and foundational theoretical frameworks.
+                </p>
+            </div>
+
+            <!-- Theory Pillars Banner -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto mb-14">
+                <div class="bg-white dark:bg-[#1E293B] p-5 rounded-2xl border border-[#E2E8F0] dark:border-[#334155] text-center shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 mx-auto rounded-xl bg-[#ECFDF5] dark:bg-[#059669]/20 text-[#059669] flex items-center justify-center text-xl mb-3">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h4 class="font-bold text-[#0F172A] dark:text-white text-sm">First-Principles</h4>
+                    <p class="text-xs text-[#64748B] dark:text-[#94A3B8] mt-1">Understanding the 'why' before solving problems</p>
+                </div>
+                <div class="bg-white dark:bg-[#1E293B] p-5 rounded-2xl border border-[#E2E8F0] dark:border-[#334155] text-center shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 mx-auto rounded-xl bg-[#FEF3C7] dark:bg-[#F59E0B]/20 text-[#D97706] flex items-center justify-center text-xl mb-3">
+                        <i class="fas fa-square-root-variable"></i>
+                    </div>
+                    <h4 class="font-bold text-[#0F172A] dark:text-white text-sm">Formula Derivations</h4>
+                    <p class="text-xs text-[#64748B] dark:text-[#94A3B8] mt-1">Proof pathways without guesswork</p>
+                </div>
+                <div class="bg-white dark:bg-[#1E293B] p-5 rounded-2xl border border-[#E2E8F0] dark:border-[#334155] text-center shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 mx-auto rounded-xl bg-[#D1FAE5] dark:bg-[#10B981]/20 text-[#059669] flex items-center justify-center text-xl mb-3">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <h4 class="font-bold text-[#0F172A] dark:text-white text-sm">Visual Mind Maps</h4>
+                    <p class="text-xs text-[#64748B] dark:text-[#94A3B8] mt-1">Connecting cross-chapter concepts</p>
+                </div>
+                <div class="bg-white dark:bg-[#1E293B] p-5 rounded-2xl border border-[#E2E8F0] dark:border-[#334155] text-center shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 mx-auto rounded-xl bg-[#FCE7F3] dark:bg-[#EC4899]/20 text-[#DB2777] flex items-center justify-center text-xl mb-3">
+                        <i class="fas fa-earth-americas"></i>
+                    </div>
+                    <h4 class="font-bold text-[#0F172A] dark:text-white text-sm">Applied Context</h4>
+                    <p class="text-xs text-[#64748B] dark:text-[#94A3B8] mt-1">Real-world applications & analogies</p>
+                </div>
+            </div>
+
+            <!-- Subject Theory Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                <!-- Card 1: Mathematics -->
+                <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-7 border border-[#E2E8F0] dark:border-[#334155] hover:border-[#059669] dark:hover:border-[#059669] transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 flex flex-col">
+                    <div class="flex items-center justify-between mb-5">
+                        <div class="w-14 h-14 rounded-2xl bg-[#ECFDF5] text-[#047857] flex items-center justify-center text-2xl shadow-sm">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <span class="text-xs font-bold text-[#059669] bg-[#ECFDF5] dark:bg-[#059669]/20 px-3 py-1 rounded-full uppercase tracking-wider">Class 6 - 12</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-[#0F172A] dark:text-white mb-2">Mathematics Theory</h3>
+                    <p class="text-[#475569] dark:text-[#94A3B8] text-sm leading-relaxed mb-5">
+                        Deconstruct abstract mathematical rules into intuitive logic. Students grasp the axiomatic roots of equations before applying formulas.
+                    </p>
+                    <div class="space-y-2 mb-6 text-xs text-[#334155] dark:text-[#CBD5E1]">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-[#059669]"></i>
+                            <span>Axiomatic Proofs & Number Logic</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-[#059669]"></i>
+                            <span>Euclidean & Coordinate Geometry Theorems</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-[#059669]"></i>
+                            <span>Calculus Limits, Derivatives & Integrals</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-[#059669]"></i>
+                            <span>Probability Models & Statistical Distribution</span>
+                        </div>
+                    </div>
+                    <div class="mt-auto pt-4 border-t border-[#F1F5F9] dark:border-[#334155]/60 flex items-center justify-between">
+                        <span class="text-xs font-semibold text-[#64748B] dark:text-[#94A3B8]">45+ Concept Modules</span>
+                        <a href="courses.html" class="text-xs font-bold text-[#059669] hover:text-[#047857] inline-flex items-center gap-1 group">
+                            Explore Theory <i class="fas fa-arrow-right text-[10px] group-hover:translate-x-1 transition"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 2: Physics -->
+                <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-7 border border-[#E2E8F0] dark:border-[#334155] hover:border-[#F59E0B] dark:hover:border-[#F59E0B] transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 flex flex-col">
+                    <div class="flex items-center justify-between mb-5">
+                        <div class="w-14 h-14 rounded-2xl bg-[#FEF3C7] text-[#D97706] flex items-center justify-center text-2xl shadow-sm">
+                            <i class="fas fa-atom"></i>
+                        </div>
+                        <span class="text-xs font-bold text-[#D97706] bg-[#FEF3C7] dark:bg-[#F59E0B]/20 px-3 py-1 rounded-full uppercase tracking-wider">Class 6 - 12</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-[#0F172A] dark:text-white mb-2">Physics Theory</h3>
+                    <p class="text-[#475569] dark:text-[#94A3B8] text-sm leading-relaxed mb-5">
+                        Master the physical laws governing motion, energy, and spacetime through dimensional analysis and rigorous conceptual thought models.
+                    </p>
+                    <div class="space-y-2 mb-6 text-xs text-[#334155] dark:text-[#CBD5E1]">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-[#F59E0B]"></i>
+                            <span>Newtonian Mechanics & Conservation Laws</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-[#F59E0B]"></i>
+                            <span>Thermodynamics & Kinetic Theory of Gases</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-[#F59E0B]"></i>
+                            <span>Electromagnetism, Circuits & Induction</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-[#F59E0B]"></i>
+                            <span>Wave Optics, Sound & Modern Nuclear Physics</span>
+                        </div>
+                    </div>
+                    <div class="mt-auto pt-4 border-t border-[#F1F5F9] dark:border-[#334155]/60 flex items-center justify-between">
+                        <span class="text-xs font-semibold text-[#64748B] dark:text-[#94A3B8]">38+ Concept Modules</span>
+                        <a href="courses.html" class="text-xs font-bold text-[#D97706] hover:text-[#B45309] inline-flex items-center gap-1 group">
+                            Explore Theory <i class="fas fa-arrow-right text-[10px] group-hover:translate-x-1 transition"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 3: Chemistry -->
+                <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-7 border border-[#E2E8F0] dark:border-[#334155] hover:border-[#10B981] dark:hover:border-[#10B981] transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 flex flex-col">
+                    <div class="flex items-center justify-between mb-5">
+                        <div class="w-14 h-14 rounded-2xl bg-[#D1FAE5] text-[#059669] flex items-center justify-center text-2xl shadow-sm">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <span class="text-xs font-bold text-[#059669] bg-[#D1FAE5] dark:bg-[#10B981]/20 px-3 py-1 rounded-full uppercase tracking-wider">Class 6 - 12</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-[#0F172A] dark:text-white mb-2">Chemistry Theory</h3>
+                    <p class="text-[#475569] dark:text-[#94A3B8] text-sm leading-relaxed mb-5">
+                        Delve into atomic structures, molecular bonding geometries, and chemical thermodynamics to build an intuitive grasp of matter.
+                    </p>
+                    <div class="space-y-2 mb-6 text-xs text-[#334155] dark:text-[#CBD5E1]">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-[#10B981]"></i>
+                            <span>Atomic Models & Electronic Configurations</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-[#10B981]"></i>
+                            <span>Chemical Bonding & Hybridization Theory</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-[#10B981]"></i>
+                            <span>Equilibrium & Reaction Kinetics</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-[#10B981]"></i>
+                            <span>Organic Reaction Mechanisms & Stereochemistry</span>
+                        </div>
+                    </div>
+                    <div class="mt-auto pt-4 border-t border-[#F1F5F9] dark:border-[#334155]/60 flex items-center justify-between">
+                        <span class="text-xs font-semibold text-[#64748B] dark:text-[#94A3B8]">40+ Concept Modules</span>
+                        <a href="courses.html" class="text-xs font-bold text-[#059669] hover:text-[#047857] inline-flex items-center gap-1 group">
+                            Explore Theory <i class="fas fa-arrow-right text-[10px] group-hover:translate-x-1 transition"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 4: Biology & Life Sciences -->
+                <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-7 border border-[#E2E8F0] dark:border-[#334155] hover:border-[#EC4899] dark:hover:border-[#EC4899] transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 flex flex-col">
+                    <div class="flex items-center justify-between mb-5">
+                        <div class="w-14 h-14 rounded-2xl bg-[#FCE7F3] text-[#DB2777] flex items-center justify-center text-2xl shadow-sm">
+                            <i class="fas fa-dna"></i>
+                        </div>
+                        <span class="text-xs font-bold text-[#DB2777] bg-[#FCE7F3] dark:bg-[#EC4899]/20 px-3 py-1 rounded-full uppercase tracking-wider">Class 6 - 12</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-[#0F172A] dark:text-white mb-2">Biology & Life Sciences</h3>
+                    <p class="text-[#475569] dark:text-[#94A3B8] text-sm leading-relaxed mb-5">
+                        Systematic exploration of cellular mechanisms, anatomical systems, and ecological networks supported by structural diagrams.
+                    </p>
+                    <div class="space-y-2 mb-6 text-xs text-[#334155] dark:text-[#CBD5E1]">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-[#EC4899]"></i>
+                            <span>Cellular Organelles, Mitosis & Meiosis</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-[#EC4899]"></i>
+                            <span>Mendelian Genetics & DNA Transcription</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-[#EC4899]"></i>
+                            <span>Human Organ Systems & Homeostasis</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-[#EC4899]"></i>
+                            <span>Ecology, Evolution & Biodiversity Cycles</span>
+                        </div>
+                    </div>
+                    <div class="mt-auto pt-4 border-t border-[#F1F5F9] dark:border-[#334155]/60 flex items-center justify-between">
+                        <span class="text-xs font-semibold text-[#64748B] dark:text-[#94A3B8]">35+ Concept Modules</span>
+                        <a href="courses.html" class="text-xs font-bold text-[#DB2777] hover:text-[#BE185D] inline-flex items-center gap-1 group">
+                            Explore Theory <i class="fas fa-arrow-right text-[10px] group-hover:translate-x-1 transition"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 5: Grammar & Linguistics -->
+                <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-7 border border-[#E2E8F0] dark:border-[#334155] hover:border-[#8B5CF6] dark:hover:border-[#8B5CF6] transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 flex flex-col">
+                    <div class="flex items-center justify-between mb-5">
+                        <div class="w-14 h-14 rounded-2xl bg-[#EDE9FE] text-[#7C3AED] flex items-center justify-center text-2xl shadow-sm">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <span class="text-xs font-bold text-[#7C3AED] bg-[#EDE9FE] dark:bg-[#8B5CF6]/20 px-3 py-1 rounded-full uppercase tracking-wider">Class 1 - 12</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-[#0F172A] dark:text-white mb-2">Grammar & Language Theory</h3>
+                    <p class="text-[#475569] dark:text-[#94A3B8] text-sm leading-relaxed mb-5">
+                        Decode syntax principles, linguistic architecture, and rhetoric to foster impeccable communication and analytical reading depth.
+                    </p>
+                    <div class="space-y-2 mb-6 text-xs text-[#334155] dark:text-[#CBD5E1]">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-[#8B5CF6]"></i>
+                            <span>Syntactic Structures & Clause Relationships</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-[#8B5CF6]"></i>
+                            <span>Morphology, Etymology & Vocabulary Roots</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-[#8B5CF6]"></i>
+                            <span>Literary Devices & Narrative Theory</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-[#8B5CF6]"></i>
+                            <span>Rhetorical Appeals & Formal Composition</span>
+                        </div>
+                    </div>
+                    <div class="mt-auto pt-4 border-t border-[#F1F5F9] dark:border-[#334155]/60 flex items-center justify-between">
+                        <span class="text-xs font-semibold text-[#64748B] dark:text-[#94A3B8]">30+ Concept Modules</span>
+                        <a href="courses.html" class="text-xs font-bold text-[#7C3AED] hover:text-[#6D28D9] inline-flex items-center gap-1 group">
+                            Explore Theory <i class="fas fa-arrow-right text-[10px] group-hover:translate-x-1 transition"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 6: Computer Science & Logic -->
+                <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-7 border border-[#E2E8F0] dark:border-[#334155] hover:border-[#06B6D4] dark:hover:border-[#06B6D4] transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 flex flex-col">
+                    <div class="flex items-center justify-between mb-5">
+                        <div class="w-14 h-14 rounded-2xl bg-[#CFFAFE] text-[#0891B2] flex items-center justify-center text-2xl shadow-sm">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <span class="text-xs font-bold text-[#0891B2] bg-[#CFFAFE] dark:bg-[#06B6D4]/20 px-3 py-1 rounded-full uppercase tracking-wider">Class 4 - 12</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-[#0F172A] dark:text-white mb-2">Computer Science & Logic</h3>
+                    <p class="text-[#475569] dark:text-[#94A3B8] text-sm leading-relaxed mb-5">
+                        Demystify algorithmic thinking, computational problem solving, data representation, and formal Boolean architectures.
+                    </p>
+                    <div class="space-y-2 mb-6 text-xs text-[#334155] dark:text-[#CBD5E1]">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-[#06B6D4]"></i>
+                            <span>Algorithm Design & Complexity Foundations</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-[#06B6D4]"></i>
+                            <span>Boolean Logic, Gates & Truth Tables</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-[#06B6D4]"></i>
+                            <span>Data Representation (Binary, Hex, ASCII)</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-[#06B6D4]"></i>
+                            <span>Object-Oriented Programming Paradigms</span>
+                        </div>
+                    </div>
+                    <div class="mt-auto pt-4 border-t border-[#F1F5F9] dark:border-[#334155]/60 flex items-center justify-between">
+                        <span class="text-xs font-semibold text-[#64748B] dark:text-[#94A3B8]">28+ Concept Modules</span>
+                        <a href="courses.html" class="text-xs font-bold text-[#0891B2] hover:text-[#0e7490] inline-flex items-center gap-1 group">
+                            Explore Theory <i class="fas fa-arrow-right text-[10px] group-hover:translate-x-1 transition"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Theory Methodology Banner -->
+            <div class="mt-14 max-w-6xl mx-auto bg-gradient-to-r from-[#1E293B] to-[#0F172A] rounded-3xl p-8 md:p-10 text-white shadow-xl relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-[#059669]/20 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="flex flex-col lg:flex-row items-center justify-between gap-8 relative z-10">
+                    <div class="max-w-2xl">
+                        <span class="inline-block px-3 py-1 rounded-full bg-[#059669]/30 text-[#10B981] text-xs font-bold uppercase tracking-wider mb-3">Our Pedagogical Philosophy</span>
+                        <h3 class="text-2xl md:text-3xl font-display font-bold">Why Theory-First Learning Yields 3x Higher Retention</h3>
+                        <p class="text-[#94A3B8] text-sm mt-3 leading-relaxed">
+                            Students who comprehend theoretical principles solve unfamiliar problem variants 74% faster than those who memorize procedures. Our tutors teach the underlying framework first, equipping students with lifelong critical reasoning skills.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap sm:flex-nowrap gap-4 shrink-0">
+                        <a href="courses.html" class="btn-primary px-6 py-3 text-sm inline-flex items-center gap-2 shadow-lg hover:shadow-emerald-500/25">
+                            <span>Browse Courses</span>
+                            <i class="fas fa-book-bookmark text-xs"></i>
+                        </a>
+                        <a href="contact.html" class="btn-outline border-white text-white hover:bg-white hover:text-[#0F172A] px-6 py-3 text-sm inline-flex items-center gap-2">
+                            <span>Book Theory Demo</span>
+                            <i class="fas fa-calendar-check text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== STUDENT REVIEWS ======== -->
+    <section id="reviews" class="py-20 bg-white dark:bg-[#0F172A]">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="text-center max-w-3xl mx-auto mb-14">
+                <span class="section-badge">Student Reviews</span>
+                <h2 class="text-3xl md:text-4xl font-display font-bold mt-3 text-[#0F172A] dark:text-white">What <span class="text-[#059669]">Students</span> Say</h2>
+                <div class="section-divider"></div>
+                <p class="text-[#475569] dark:text-[#94A3B8]">Hear from real students who have experienced the StudyPoint difference.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                <div class="testimonial-card dark:bg-[#1E293B] border-[#E2E8F0] dark:border-[#334155] flex flex-col h-full">
+                    <div class="flex gap-1 text-[#F59E0B] mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="text-[#475569] dark:text-[#94A3B8] text-sm leading-relaxed">"My math grades went from C to A in just two months! The tutors are patient and explain everything clearly."</p>
+                    <div class="flex items-center gap-3 mt-auto pt-4">
+                        <img src="assets/t1.jpg" alt="James D." class="w-10 h-10 rounded-full object-cover border border-[#E2E8F0] dark:border-[#334155]">
+                        <div><strong class="text-[#0F172A] dark:text-white text-sm">James D.</strong><div class="text-xs text-[#64748B] dark:text-[#94A3B8]">Grade 10 Student</div></div>
+                    </div>
+                </div>
+                <div class="testimonial-card dark:bg-[#1E293B] border-[#E2E8F0] dark:border-[#334155] flex flex-col h-full">
+                    <div class="flex gap-1 text-[#F59E0B] mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="text-[#475569] dark:text-[#94A3B8] text-sm leading-relaxed">"The flexible scheduling is a lifesaver. I can fit tutoring between my sports practice and homework."</p>
+                    <div class="flex items-center gap-3 mt-auto pt-4">
+                        <img src="assets/t2.jpg" alt="Emily R." class="w-10 h-10 rounded-full object-cover border border-[#E2E8F0] dark:border-[#334155]">
+                        <div><strong class="text-[#0F172A] dark:text-white text-sm">Emily R.</strong><div class="text-xs text-[#64748B] dark:text-[#94A3B8]">Grade 8 Student</div></div>
+                    </div>
+                </div>
+                <div class="testimonial-card dark:bg-[#1E293B] border-[#E2E8F0] dark:border-[#334155] flex flex-col h-full">
+                    <div class="flex gap-1 text-[#F59E0B] mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="text-[#475569] dark:text-[#94A3B8] text-sm leading-relaxed">"My daughter's confidence in science has grown tremendously. She actually looks forward to her tutoring sessions!"</p>
+                    <div class="flex items-center gap-3 mt-auto pt-4">
+                        <img src="assets/t3.jpg" alt="Maria P." class="w-10 h-10 rounded-full object-cover border border-[#E2E8F0] dark:border-[#334155]">
+                        <div><strong class="text-[#0F172A] dark:text-white text-sm">Maria P.</strong><div class="text-xs text-[#64748B] dark:text-[#94A3B8]">Parent</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== FINAL SECTION: CTA (SPLIT LAYOUT) ======== -->
+    <section class="py-20 bg-white dark:bg-[#0F172A]">
+        <div class="container mx-auto px-4 md:px-6 max-w-6xl">
+            <div class="grid lg:grid-cols-2 gap-12 items-center bg-[#F8FAFC] dark:bg-[#1E293B] rounded-[2.5rem] p-8 md:p-12 overflow-hidden relative shadow-sm border border-[#E2E8F0] dark:border-[#334155]">
+                <div class="relative z-10">
+                    <span class="inline-block py-1 px-3 rounded-full bg-[#E0E7FF] dark:bg-[#064E3B] text-[#047857] dark:text-[#6EE7B7] text-xs font-bold tracking-wider uppercase mb-4">Get Started</span>
+                    <h2 class="text-3xl md:text-4xl font-display font-bold text-[#0F172A] dark:text-white leading-tight mb-6">Ready to <span class="text-[#059669]">Transform</span> Your Learning Journey?</h2>
+                    <p class="text-[#475569] dark:text-[#94A3B8] text-lg leading-relaxed mb-8">Whether you need help catching up or want to get ahead, our expert tutors are here to guide you every step of the way.</p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="contact.html" class="bg-[#059669] text-white px-8 py-3.5 rounded-full font-bold hover:bg-[#047857] transition shadow-lg shadow-[#059669]/30 inline-flex items-center gap-2">Book a Free Trial <i class="fas fa-arrow-right"></i></a>
+                        <a href="courses.html" class="border border-[#CBD5E1] dark:border-[#475569] text-[#0F172A] dark:text-white px-8 py-3.5 rounded-full font-bold hover:bg-white dark:hover:bg-[#0F172A] transition inline-flex items-center gap-2">Explore Courses</a>
+                    </div>
+                </div>
+                <div class="relative h-64 md:h-full min-h-[300px] rounded-2xl overflow-hidden group">
+                    <div class="absolute inset-0 bg-[#059669]/20 group-hover:bg-transparent transition duration-500 z-10"></div>
+                    <img src="assets/classroom.jpg" alt="Students learning" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition duration-700">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== FOOTER ======== -->
+    <footer class="bg-white dark:bg-[#0F172A] text-[#0F172A] dark:text-white pt-16 pb-8 border-t-4 border-[#059669]">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                <div class="text-center md:text-start">
+                    <a href="index.html" class="flex items-center justify-center md:justify-start gap-3 mb-4 hover:opacity-80 transition-opacity cursor-pointer">
+                        <div class="w-9 h-9 bg-[#059669] rounded-xl flex items-center justify-center shadow-lg"><i class="fas fa-brain text-white text-sm"></i></div>
+                        <span class="text-xl font-display font-extrabold tracking-tight text-[#0F172A] dark:text-white">STUDY<span class="text-[#059669]">POINT</span></span>
+                    </a>
+                    <p class="text-[#475569] dark:text-[#94A3B8] text-sm">Helping students unlock their full potential through personalized tutoring.</p>
+                    <div class="flex justify-center md:justify-start gap-3 mt-4">
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="text-center md:text-start">
+                    <h4 class="text-[#059669] font-bold text-sm uppercase tracking-wider mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="courses.html" class="text-[#475569] dark:text-[#94A3B8] hover:text-[#059669] transition">Courses</a></li>
+                        <li><a href="tutors.html" class="text-[#475569] dark:text-[#94A3B8] hover:text-[#059669] transition">Tutors</a></li>
+                        <li><a href="fees.html" class="text-[#475569] dark:text-[#94A3B8] hover:text-[#059669] transition">Fees</a></li>
+                        <li><a href="contact.html" class="text-[#475569] dark:text-[#94A3B8] hover:text-[#059669] transition">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="text-center md:text-start">
+                    <h4 class="text-[#059669] font-bold text-sm uppercase tracking-wider mb-4">Community</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="about.html" class="text-[#475569] dark:text-[#94A3B8] hover:text-[#059669] transition">About</a></li>
+                        <li><a href="#" class="text-[#475569] dark:text-[#94A3B8] hover:text-[#059669] transition">Blog</a></li>
+                        <li><a href="#" class="text-[#475569] dark:text-[#94A3B8] hover:text-[#059669] transition">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="text-center md:text-start">
+                    <h4 class="text-[#059669] font-bold text-sm uppercase tracking-wider mb-4">Contact</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex justify-center md:justify-start gap-3 text-[#475569] dark:text-[#94A3B8]"><i class="fas fa-map-marker-alt text-[#059669] mt-1"></i><span>123 Education St, City</span></li>
+                        <li class="flex justify-center md:justify-start gap-3 text-[#475569] dark:text-[#94A3B8]"><i class="fas fa-phone text-[#059669]"></i><span>(555) 123-4567</span></li>
+                        <li class="flex justify-center md:justify-start gap-3 text-[#475569] dark:text-[#94A3B8]"><i class="fas fa-envelope text-[#059669]"></i><span>info@studypoint.com</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-12 pt-6 border-t border-[#E2E8F0] dark:border-[#1E293B] text-center text-sm text-[#64748B] dark:text-[#64748B]">
+                <p>&copy; 2026 StudyPoint Tutoring Center. <i class="fas fa-heart text-[#059669] mx-1"></i> Empowering students.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ======== SCRIPTS ======== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Theme toggle
+            const themeBtns = document.querySelectorAll('#theme-toggle, #mobile-theme-toggle');
+            themeBtns.forEach(btn => {
+                btn?.addEventListener('click', () => {
+                    document.documentElement.classList.toggle('dark');
+                    localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' :
+                        'light');
+                });
+            });
+            if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark');
+
+            // RTL
+            function setRTL(isRTL) {
+                const html = document.documentElement;
+                if (isRTL === 'rtl' || isRTL === true) { html.setAttribute('dir', 'rtl');
+                    localStorage.setItem('dir', 'rtl'); } else { html.setAttribute('dir', 'ltr');
+                    localStorage.setItem('dir', 'ltr'); }
+            }
+            const savedDir = localStorage.getItem('dir');
+            if (savedDir === 'rtl') document.documentElement.setAttribute('dir', 'rtl');
+            else document.documentElement.setAttribute('dir', 'ltr');
+
+            const rtlBtn = document.getElementById('rtl-toggle');
+            if (rtlBtn) {
+                rtlBtn.addEventListener('click', () => {
+                    const currentDir = document.documentElement.getAttribute('dir');
+                    setRTL(currentDir === 'rtl' ? 'ltr' : 'rtl');
+                });
+            }
+            const mobileRtlBtn = document.getElementById('mobile-rtl-toggle');
+            if (mobileRtlBtn) {
+                mobileRtlBtn.addEventListener('click', () => {
+                    const currentDir = document.documentElement.getAttribute('dir');
+                    setRTL(currentDir === 'rtl' ? 'ltr' : 'rtl');
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    const mobileToggle = document.getElementById('mobile-toggle');
+                    if (mobileMenu && mobileMenu.classList.contains('open')) {
+                        mobileMenu.classList.remove('open');
+                        if (mobileToggle && mobileToggle.querySelector('i')) {
+                            mobileToggle.querySelector('i').classList.remove('fa-times');
+                            mobileToggle.querySelector('i').classList.add('fa-bars');
+                        }
+                    }
+                });
+            }
+
+            // Mobile menu
+            const mobileToggle = document.getElementById('mobile-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileToggle && mobileMenu) {
+                mobileToggle.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('open');
+                    const icon = mobileToggle.querySelector('i');
+                    if (mobileMenu.classList.contains('open')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+                mobileMenu.querySelectorAll('a:not(#mobile-rtl-toggle)').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.remove('open');
+                        if (mobileToggle.querySelector('i')) {
+                            mobileToggle.querySelector('i').classList.remove('fa-times');
+                            mobileToggle.querySelector('i').classList.add('fa-bars');
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

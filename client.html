@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudyPoint · Student Dashboard</title>
+  <!-- Favicon -->
+<link rel="icon" href="assets/fav.jpeg" type="image/jpeg">  <!-- Tailwind + Fonts + Icons -->
+  <script src="tailwind.js"></script>
+  <script>tailwind.config = { darkMode: 'class' };</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { background: #f8fafc; font-family: 'Inter', sans-serif; }
+    .dark body { background: #0f172a; color: #f1f5f9; }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(5, 150, 105, 0.15);
+    }
+    .dark .glass-card {
+      background: rgba(30, 30, 30, 0.7);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+    .dark .bg-white { background-color: #1e1e1e !important; color: #f1f5f9; }
+    .dark .text-dark { color: #f1f5f9; }
+    .dark .text-dark\/60 { color: #94a3b8; }
+    .dark .text-dark\/70 { color: #cbd5e1; }
+    .dark .border-secondary { border-color: rgba(255,255,255,0.1); }
+    .dark select, .dark input, .dark textarea {
+      background-color: #1a1a1a; color: #f8fafc; border-color: rgba(255,255,255,0.15);
+    }
+    .badge-hours {
+      background: #05966910;
+      border: 1px solid #05966930;
+      border-radius: 40px;
+    }
+    .progress-bar {
+      height: 8px;
+      border-radius: 20px;
+      background: #e2e8f0;
+    }
+    .dark .progress-bar { background: #2a2a2a; }
+    .progress-fill { background: #059669; height: 100%; border-radius: 20px; transition: width 0.6s ease; }
+    .instructor-card { transition: all 0.2s; }
+    .instructor-card:hover { transform: translateY(-4px); border-color: #059669; }
+    [dir="rtl"] .ml-auto { margin-left: 0; margin-right: auto; }
+    [dir="rtl"] .mr-auto { margin-left: auto; margin-right: 0; }
+    [dir="rtl"] .text-left { text-align: right; }
+    [dir="rtl"] .lg\:text-left { text-align: right; }
+    .scrollbar-none::-webkit-scrollbar { display: none; }
+    .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+    .tab-btn.active { background: #059669 !important; color: #fff !important; box-shadow: 0 4px 12px rgba(5, 150, 105,0.3) !important; }
+    .dark .tab-btn.active { background: #059669 !important; color: #fff !important; }
+    .tab-btn { transition: all 0.2s; }
+    .feedback-item { border-left: 3px solid #059669; padding-left: 16px; }
+    .dark .feedback-item { border-left-color: #059669; }
+    .avatar-placeholder {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: #059669;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .dark .avatar-placeholder { background: #059669; }
+    .status-badge {
+      padding: 0.2rem 0.8rem;
+      border-radius: 100px;
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .status-completed { background: #dcfce7; color: #16a34a; }
+    .dark .status-completed { background: #052e16; color: #4ade80; }
+    .status-upcoming { background: #fef3c7; color: #d97706; }
+    .dark .status-upcoming { background: #451a03; color: #fbbf24; }
+    .status-missed { background: #fee2e2; color: #dc2626; }
+    .dark .status-missed { background: #450a0a; color: #f87171; }
+    .status-pending { background: #e0e7ff; color: #047857; }
+    .dark .status-pending { background: #1e1b4b; color: #10b981; }
+  </style>
+    <style>
+        h1, h2, h3, h4, h5, h6 { font-weight: 600 !important; }
+        p { font-weight: 500 !important; }
+    </style>
+</head>
+<body class="antialiased">
+
+<!-- ====== MAIN WRAPPER ====== -->
+<div class="min-h-screen flex flex-col lg:flex-row bg-[#f8fafc] dark:bg-neutral-950 transition-colors duration-300">
+
+  <!-- ====== SIDEBAR ====== -->
+  <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-xl border-r border-[#e2e8f0] dark:border-white/10 flex flex-col justify-between py-6 px-5 transition-transform duration-300 -translate-x-full lg:translate-x-0 h-screen overflow-y-auto scrollbar-none shadow-xl">
+    <div>
+      <div class="flex items-center justify-between pb-6 border-b border-[#e2e8f0] dark:border-white/10">
+        <a href="index.html" class="flex items-center gap-2.5 group">
+          <div class="bg-[#059669] text-white w-10 h-10 rounded-xl flex items-center justify-center shadow-lg shadow-[#059669]/20">
+            <i class="fa-solid fa-brain text-base"></i>
+          </div>
+          <span class="font-display font-extrabold text-xl tracking-tight text-[#0f172a] dark:text-white">STUDY<span class="text-[#059669]">POINT</span></span>
+        </a>
+        <button onclick="toggleSidebar()" class="lg:hidden text-dark dark:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+      </div>
+
+      <!-- user brief -->
+      <div class="flex items-center gap-3 bg-[#ecfdf5] dark:bg-neutral-800/60 p-3 rounded-2xl border border-[#e2e8f0] dark:border-white/5 mt-6">
+        <div class="avatar-placeholder">SM</div>
+        <div class="text-left">
+          <h5 class="text-sm font-bold text-[#0f172a] dark:text-white">Sarah Mitchell</h5>
+          <p class="text-[10px] text-[#059669] font-black uppercase tracking-wider">Student · Grade 10</p>
+        </div>
+      </div>
+
+      <!-- nav -->
+      <nav class="mt-8 space-y-1.5">
+        <p class="text-[10px] text-dark/40 dark:text-white/40 font-bold uppercase tracking-wider pl-2">Dashboard</p>
+        <button onclick="switchTab('overview')" id="tab-overview" class="tab-btn active w-full text-left px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2.5 text-dark/70 dark:text-white/70 hover:bg-[#ecfdf5] dark:hover:bg-neutral-800">
+          <i class="fa-solid fa-gauge-high text-sm"></i> <span>Dashboard</span>
+        </button>
+        <button onclick="switchTab('timetable')" id="tab-timetable" class="tab-btn w-full text-left px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2.5 text-dark/70 dark:text-white/70 hover:bg-[#ecfdf5] dark:hover:bg-neutral-800">
+          <i class="fa-solid fa-calendar-days text-sm"></i> <span>Timetable</span>
+        </button>
+        <button onclick="switchTab('attendance')" id="tab-attendance" class="tab-btn w-full text-left px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2.5 text-dark/70 dark:text-white/70 hover:bg-[#ecfdf5] dark:hover:bg-neutral-800">
+          <i class="fa-solid fa-clipboard-check text-sm"></i> <span>Attendance</span>
+        </button>
+        <button onclick="switchTab('materials')" id="tab-materials" class="tab-btn w-full text-left px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2.5 text-dark/70 dark:text-white/70 hover:bg-[#ecfdf5] dark:hover:bg-neutral-800">
+          <i class="fa-solid fa-book-open text-sm"></i> <span>Study Materials</span>
+        </button>
+        <button onclick="switchTab('tests')" id="tab-tests" class="tab-btn w-full text-left px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2.5 text-dark/70 dark:text-white/70 hover:bg-[#ecfdf5] dark:hover:bg-neutral-800">
+          <i class="fa-solid fa-file-pen text-sm"></i> <span>Tests</span>
+        </button>
+        <button onclick="switchTab('results')" id="tab-results" class="tab-btn w-full text-left px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2.5 text-dark/70 dark:text-white/70 hover:bg-[#ecfdf5] dark:hover:bg-neutral-800">
+          <i class="fa-solid fa-chart-simple text-sm"></i> <span>Results</span>
+        </button>
+        <button onclick="switchTab('profile')" id="tab-profile" class="tab-btn w-full text-left px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2.5 text-dark/70 dark:text-white/70 hover:bg-[#ecfdf5] dark:hover:bg-neutral-800">
+          <i class="fa-solid fa-user text-sm"></i> <span>Profile</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- bottom -->
+    <div class="pt-4 border-t border-[#e2e8f0] dark:border-white/10 space-y-2">
+      <a href="login.html" class="w-full px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 transition">
+        <i class="fa-solid fa-right-from-bracket text-sm"></i> <span>Logout</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- overlay -->
+  <div id="sidebarOverlay" class="fixed inset-0 bg-black/20 dark:bg-black/50 backdrop-blur-sm z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
+
+  <!-- ====== MAIN CONTENT ====== -->
+  <main class="flex-grow lg:ml-72 min-h-screen flex flex-col">
+
+    <!-- header -->
+    <header class="h-20 bg-[#f8fafc] dark:bg-neutral-950 border-b border-[#e2e8f0] dark:border-white/10 px-6 flex items-center justify-between sticky top-0 z-30 shadow-sm transition-colors duration-300">
+      <div class="flex items-center gap-4">
+        <button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 rounded-xl bg-[#ecfdf5] dark:bg-white/10 hover:bg-[#059669]/20 transition flex items-center justify-center">
+          <i class="fa-solid fa-bars text-sm"></i>
+        </button>
+        <h2 class="text-sm font-bold text-dark/70 dark:text-white/70"><span id="currentTabLabel" class="text-[#059669]">Dashboard</span></h2>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-xs text-dark/50 dark:text-white/40 hidden sm:inline">Last login: Today, 9:30 AM</span>
+        <button onclick="toggleDarkMode()" class="w-10 h-10 rounded-xl bg-[#ecfdf5] dark:bg-white/10 hover:bg-[#059669]/20 transition flex items-center justify-center text-dark dark:text-white">
+          <i class="fa-solid fa-moon dark:hidden text-sm"></i><i class="fa-solid fa-sun hidden dark:block text-sm"></i>
+        </button>
+        <button onclick="toggleDir()" id="dirToggle" class="w-10 h-10 rounded-xl bg-[#ecfdf5] dark:bg-white/10 hover:bg-[#059669]/20 transition flex items-center justify-center text-dark dark:text-white font-black text-xs">LTR</button>
+      </div>
+    </header>
+
+    <!-- ====== PANELS ====== -->
+
+    <!-- 1. DASHBOARD -->
+    <section id="panel-overview" class="flex-grow p-6 lg:p-10">
+      <div class="space-y-8">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <h1 class="text-3xl md:text-4xl font-display font-extrabold text-[#0f172a] dark:text-white">Welcome back, <span class="text-[#059669]">Sarah</span> 👋</h1>
+            <p class="text-sm text-dark/60 dark:text-white/60 mt-1">Track your learning progress, upcoming sessions, and achievements.</p>
+          </div>
+          <button onclick="switchTab('timetable')" class="bg-[#059669] hover:bg-[#047857] text-white px-6 py-3 rounded-2xl text-sm font-bold shadow-md flex items-center gap-2 transition">
+            <i class="fa-solid fa-plus"></i> View Timetable
+          </button>
+        </div>
+
+        <!-- stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="bg-white/80 dark:bg-neutral-900/80 p-5 rounded-2xl border border-[#e2e8f0] dark:border-white/5 shadow-sm text-center">
+            <p class="text-[10px] text-dark/50 dark:text-white/40 font-bold uppercase">Sessions</p>
+            <p class="text-3xl font-black text-[#059669]">14</p>
+            <p class="text-[10px] text-dark/40 dark:text-white/30">12 completed · 2 upcoming</p>
+          </div>
+          <div class="bg-white/80 dark:bg-neutral-900/80 p-5 rounded-2xl border border-[#e2e8f0] dark:border-white/5 shadow-sm text-center">
+            <p class="text-[10px] text-dark/50 dark:text-white/40 font-bold uppercase">Hours</p>
+            <p class="text-3xl font-black text-[#059669]">28.5</p>
+            <p class="text-[10px] text-dark/40 dark:text-white/30">this month</p>
+          </div>
+          <div class="bg-white/80 dark:bg-neutral-900/80 p-5 rounded-2xl border border-[#e2e8f0] dark:border-white/5 shadow-sm text-center">
+            <p class="text-[10px] text-dark/50 dark:text-white/40 font-bold uppercase">Tutors</p>
+            <p class="text-3xl font-black text-[#059669]">4</p>
+            <p class="text-[10px] text-dark/40 dark:text-white/30">active instructors</p>
+          </div>
+          <div class="bg-white/80 dark:bg-neutral-900/80 p-5 rounded-2xl border border-[#e2e8f0] dark:border-white/5 shadow-sm text-center">
+            <p class="text-[10px] text-dark/50 dark:text-white/40 font-bold uppercase">Avg. Score</p>
+            <p class="text-3xl font-black text-emerald-500">89%</p>
+            <p class="text-[10px] text-dark/40 dark:text-white/30">across all subjects</p>
+          </div>
+        </div>
+
+        <!-- progress bar + recent activity -->
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="md:col-span-2 bg-white/80 dark:bg-neutral-900/80 p-6 rounded-2xl border border-[#e2e8f0] dark:border-white/5">
+            <div class="flex justify-between items-center">
+              <span class="text-sm font-bold text-dark dark:text-white">Overall Learning Progress</span>
+              <span class="text-sm font-bold text-[#059669]">82%</span>
+            </div>
+            <div class="progress-bar mt-2"><div class="progress-fill" style="width:82%"></div></div>
+            <div class="grid grid-cols-4 gap-2 mt-4 text-[10px] text-dark/50 dark:text-white/40">
+              <div><span class="block font-bold text-dark dark:text-white">Math</span>85%</div>
+              <div><span class="block font-bold text-dark dark:text-white">Science</span>90%</div>
+              <div><span class="block font-bold text-dark dark:text-white">English</span>78%</div>
+              <div><span class="block font-bold text-dark dark:text-white">Languages</span>95%</div>
+            </div>
+          </div>
+          <div class="bg-white/80 dark:bg-neutral-900/80 p-6 rounded-2xl border border-[#e2e8f0] dark:border-white/5">
+            <h4 class="text-xs font-bold text-dark/50 dark:text-white/40 uppercase tracking-wider">Recent Activity</h4>
+            <div class="mt-3 space-y-4 text-sm">
+              <div class="flex justify-between items-start gap-3">
+                <div class="flex items-start gap-2">
+                  <i class="fa-regular fa-circle-check text-emerald-500 text-xs mt-[3px] shrink-0"></i>
+                  <span class="text-dark/70 dark:text-white/70">Completed Math quiz</span>
+                </div>
+                <span class="text-[10px] text-dark/40 dark:text-white/30 whitespace-nowrap shrink-0 mt-[2px]">2h ago</span>
+              </div>
+              <div class="flex justify-between items-start gap-3">
+                <div class="flex items-start gap-2">
+                  <i class="fa-regular fa-calendar text-[#059669] text-xs mt-[3px] shrink-0"></i>
+                  <span class="text-dark/70 dark:text-white/70">Science session booked</span>
+                </div>
+                <span class="text-[10px] text-dark/40 dark:text-white/30 whitespace-nowrap shrink-0 mt-[2px]">5h ago</span>
+              </div>
+              <div class="flex justify-between items-start gap-3">
+                <div class="flex items-start gap-2">
+                  <i class="fa-regular fa-star text-amber-500 text-xs mt-[3px] shrink-0"></i>
+                  <span class="text-dark/70 dark:text-white/70">New achievement unlocked</span>
+                </div>
+                <span class="text-[10px] text-dark/40 dark:text-white/30 whitespace-nowrap shrink-0 mt-[2px]">1d ago</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- next session -->
+        <div class="bg-white/80 dark:bg-neutral-900/80 p-6 rounded-2xl border border-[#e2e8f0] dark:border-white/5">
+          <h3 class="font-bold text-dark dark:text-white flex items-center gap-2"><i class="fa-regular fa-calendar text-[#059669]"></i> Next Session</h3>
+          <div class="mt-3 flex flex-wrap items-center gap-4 text-sm">
+            <span class="bg-[#ecfdf5] dark:bg-neutral-800 px-4 py-2 rounded-xl font-semibold">📅 Today, May 28, 2026</span>
+            <span class="bg-[#ecfdf5] dark:bg-neutral-800 px-4 py-2 rounded-xl font-semibold">⏰ 10:00 AM – 11:00 AM</span>
+            <span class="bg-[#ecfdf5] dark:bg-neutral-800 px-4 py-2 rounded-xl font-semibold">👨‍🏫 James Davis · Mathematics</span>
+            <span class="bg-[#059669]/10 text-[#059669] px-4 py-2 rounded-xl font-bold text-xs">Confirmed</span>
+          </div>
+          <div class="mt-3 text-xs text-dark/50 dark:text-white/40">📍 Room 204 · Topic: Quadratic Equations</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. TIMETABLE -->
+    <section id="panel-timetable" class="flex-grow hidden p-6 lg:p-10">
+      <div class="space-y-8">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-display font-extrabold text-[#0f172a] dark:text-white">Your <span class="text-[#059669]">Timetable</span></h2>
+          <p class="text-sm text-dark/60 dark:text-white/60">Upcoming sessions for this week.</p>
+        </div>
+        <div class="space-y-4">
+          <div class="bg-white/80 dark:bg-neutral-900/80 p-5 rounded-2xl border border-[#e2e8f0] dark:border-white/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <div><span class="font-bold">📅 Today, May 28 · 10:00 AM – 11:00 AM</span><br><span class="text-sm text-dark/60 dark:text-white/60">Mathematics · James Davis · Room 204</span></div>
+            <span class="status-badge status-upcoming">Upcoming</span>
+          </div>
+          <div class="bg-white/80 dark:bg-neutral-900/80 p-5 rounded-2xl border border-[#e2e8f0] dark:border-white/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <div><span class="font-bold">📅 May 30 · 2:00 PM – 3:00 PM</span><br><span class="text-sm text-dark/60 dark:text-white/60">Science · Sarah Roberts · Lab 101</span></div>
+            <span class="status-badge status-pending">Pending</span>
+          </div>
+          <div class="bg-white/80 dark:bg-neutral-900/80 p-5 rounded-2xl border border-[#e2e8f0] dark:border-white/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <div><span class="font-bold">📅 Jun 2 · 11:00 AM – 12:00 PM</span><br><span class="text-sm text-dark/60 dark:text-white/60">English · Michael Lee · Room 305</span></div>
+            <span class="status-badge status-upcoming">Upcoming</span>
+          </div>
+          <div class="bg-white/80 dark:bg-neutral-900/80 p-5 rounded-2xl border border-[#e2e8f0] dark:border-white/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <div><span class="font-bold">📅 Jun 4 · 9:00 AM – 10:00 AM</span><br><span class="text-sm text-dark/60 dark:text-white/60">Languages · Anna Patel · Room 102</span></div>
+            <span class="status-badge status-pending">Pending</span>
+          </div>
+        </div>
+        <div class="bg-[#ecfdf5] dark:bg-neutral-800 p-4 rounded-2xl text-xs text-dark/70 dark:text-white/70">
+          <i class="fa-regular fa-clock text-[#059669] mr-2"></i> All sessions are 60 minutes. Please arrive 5 minutes early.
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. ATTENDANCE -->
+    <section id="panel-attendance" class="flex-grow hidden p-6 lg:p-10">
+      <div class="space-y-8">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-display font-extrabold text-[#0f172a] dark:text-white"><span class="text-[#059669]">Attendance</span> Record</h2>
+          <p class="text-sm text-dark/60 dark:text-white/60">Your attendance across all sessions (last 30 days).</p>
+        </div>
+        <div class="bg-white/80 dark:bg-neutral-900/80 p-6 md:p-8 rounded-3xl border border-[#e2e8f0] dark:border-white/10">
+          <div class="flex items-center gap-4 mb-6">
+            <div class="text-4xl font-black text-[#059669]">92%</div>
+            <div><p class="text-sm font-bold text-dark dark:text-white">Overall Attendance</p><p class="text-xs text-dark/60 dark:text-white/60">14 of 15 sessions attended</p></div>
+          </div>
+          <div class="space-y-4">
+            <div><div class="flex justify-between text-sm"><span>Mathematics</span><span class="font-bold text-emerald-500">100% (5/5)</span></div><div class="progress-bar mt-1"><div class="progress-fill" style="width:100%"></div></div></div>
+            <div><div class="flex justify-between text-sm"><span>Science</span><span class="font-bold text-emerald-500">100% (4/4)</span></div><div class="progress-bar mt-1"><div class="progress-fill" style="width:100%"></div></div></div>
+            <div><div class="flex justify-between text-sm"><span>English</span><span class="font-bold text-amber-500">80% (4/5)</span></div><div class="progress-bar mt-1"><div class="progress-fill" style="width:80%"></div></div></div>
+            <div><div class="flex justify-between text-sm"><span>Languages</span><span class="font-bold text-emerald-500">100% (1/1)</span></div><div class="progress-bar mt-1"><div class="progress-fill" style="width:100%"></div></div></div>
+          </div>
+          <div class="mt-6 grid grid-cols-2 gap-2 text-xs text-dark/50 dark:text-white/40">
+            <div>✅ Present: 14</div>
+            <div>❌ Absent: 1</div>
+            <div>📅 Late: 0</div>
+            <div>🏆 Streak: 8 sessions</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. STUDY MATERIALS -->
+    <section id="panel-materials" class="flex-grow hidden p-6 lg:p-10">
+      <div class="space-y-8">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-display font-extrabold text-[#0f172a] dark:text-white"><span class="text-[#059669]">Study</span> Materials</h2>
+          <p class="text-sm text-dark/60 dark:text-white/60">Access notes, guides, and resources for your subjects.</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-4">
+          <div class="bg-white/80 dark:bg-neutral-900/80 p-5 rounded-2xl border border-[#e2e8f0] dark:border-white/5 hover:border-[#059669] transition cursor-pointer flex flex-col h-full">
+            <i class="fa-solid fa-file-pdf text-2xl text-[#059669]"></i>
+            <h4 class="font-bold text-dark dark:text-white mt-2">Mathematics Notes</h4>
+            <p class="text-xs text-dark/60 dark:text-white/60">Chapter 6-8 · 18 pages</p>
+            <p class="text-[10px] text-dark/40 dark:text-white/30 mt-auto pt-2">Updated: May 25, 2026</p>
+          </div>
+          <div class="bg-white/80 dark:bg-neutral-900/80 p-5 rounded-2xl border border-[#e2e8f0] dark:border-white/5 hover:border-[#059669] transition cursor-pointer flex flex-col h-full">
+            <i class="fa-solid fa-file-pdf text-2xl text-[#059669]"></i>
+            <h4 class="font-bold text-dark dark:text-white mt-2">Science Workbook</h4>
+            <p class="text-xs text-dark/60 dark:text-white/60">Physics & Chemistry · 12 pages</p>
+            <p class="text-[10px] text-dark/40 dark:text-white/30 mt-auto pt-2">Updated: May 22, 2026</p>
+          </div>
+          <div class="bg-white/80 dark:bg-neutral-900/80 p-5 rounded-2xl border border-[#e2e8f0] dark:border-white/5 hover:border-[#059669] transition cursor-pointer flex flex-col h-full">
+            <i class="fa-solid fa-file-pdf text-2xl text-[#059669]"></i>
+            <h4 class="font-bold text-dark dark:text-white mt-2">English Grammar Guide</h4>
+            <p class="text-xs text-dark/60 dark:text-white/60">Complete grammar · 20 pages</p>
+            <p class="text-[10px] text-dark/40 dark:text-white/30 mt-auto pt-2">Updated: May 20, 2026</p>
+          </div>
+          <div class="bg-white/80 dark:bg-neutral-900/80 p-5 rounded-2xl border border-[#e2e8f0] dark:border-white/5 hover:border-[#059669] transition cursor-pointer flex flex-col h-full">
+            <i class="fa-solid fa-file-pdf text-2xl text-[#059669]"></i>
+            <h4 class="font-bold text-dark dark:text-white mt-2">Languages Vocabulary</h4>
+            <p class="text-xs text-dark/60 dark:text-white/60">Spanish & French · 15 pages</p>
+            <p class="text-[10px] text-dark/40 dark:text-white/30 mt-auto pt-2">Updated: May 18, 2026</p>
+          </div>
+          <div class="bg-white/80 dark:bg-neutral-900/80 p-5 rounded-2xl border border-[#e2e8f0] dark:border-white/5 hover:border-[#059669] transition cursor-pointer flex flex-col h-full">
+            <i class="fa-solid fa-file-video text-2xl text-[#059669]"></i>
+            <h4 class="font-bold text-dark dark:text-white mt-2">Math Video Lessons</h4>
+            <p class="text-xs text-dark/60 dark:text-white/60">Algebra & Geometry</p>
+            <p class="text-[10px] text-dark/40 dark:text-white/30 mt-auto pt-2">Added: May 24, 2026</p>
+          </div>
+          <div class="bg-white/80 dark:bg-neutral-900/80 p-5 rounded-2xl border border-[#e2e8f0] dark:border-white/5 hover:border-[#059669] transition cursor-pointer flex flex-col h-full">
+            <i class="fa-solid fa-file-word text-2xl text-[#059669]"></i>
+            <h4 class="font-bold text-dark dark:text-white mt-2">Science Lab Manual</h4>
+            <p class="text-xs text-dark/60 dark:text-white/60">Experiments & Procedures</p>
+            <p class="text-[10px] text-dark/40 dark:text-white/30 mt-auto pt-2">Updated: May 21, 2026</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. TESTS -->
+    <section id="panel-tests" class="flex-grow hidden p-6 lg:p-10">
+      <div class="space-y-8">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-display font-extrabold text-[#0f172a] dark:text-white">Upcoming <span class="text-[#059669]">Tests</span></h2>
+          <p class="text-sm text-dark/60 dark:text-white/60">Scheduled assessments and practice tests.</p>
+        </div>
+        <div class="space-y-4">
+          <div class="bg-white/80 dark:bg-neutral-900/80 p-5 rounded-2xl border border-[#e2e8f0] dark:border-white/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <div><span class="font-bold">📝 Mathematics Quiz</span><br><span class="text-sm text-dark/60 dark:text-white/60">May 30, 2026 · 45 min · Chapters 6-8</span></div>
+            <span class="status-badge status-upcoming">Upcoming</span>
+          </div>
+          <div class="bg-white/80 dark:bg-neutral-900/80 p-5 rounded-2xl border border-[#e2e8f0] dark:border-white/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <div><span class="font-bold">🔬 Science Practical</span><br><span class="text-sm text-dark/60 dark:text-white/60">Jun 5, 2026 · 60 min · Lab 101</span></div>
+            <span class="status-badge status-pending">Pending</span>
+          </div>
+          <div class="bg-white/80 dark:bg-neutral-900/80 p-5 rounded-2xl border border-[#e2e8f0] dark:border-white/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <div><span class="font-bold">📖 English Literature Test</span><br><span class="text-sm text-dark/60 dark:text-white/60">Jun 8, 2026 · 50 min · Poetry & Prose</span></div>
+            <span class="status-badge status-pending">Pending</span>
+          </div>
+        </div>
+        <div class="bg-[#ecfdf5] dark:bg-neutral-800 p-4 rounded-2xl text-xs text-dark/70 dark:text-white/70">
+          <i class="fa-regular fa-circle-check text-[#059669] mr-2"></i> You have 3 upcoming tests. Check your email for study guides.
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. RESULTS -->
+    <section id="panel-results" class="flex-grow hidden p-6 lg:p-10">
+      <div class="space-y-8">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-display font-extrabold text-[#0f172a] dark:text-white"><span class="text-[#059669]">Results</span> &amp; Progress</h2>
+          <p class="text-sm text-dark/60 dark:text-white/60">Your performance across all subjects and recent test scores.</p>
+        </div>
+        <div class="bg-white/80 dark:bg-neutral-900/80 p-6 md:p-8 rounded-3xl border border-[#e2e8f0] dark:border-white/10 space-y-6">
+          <div>
+            <div class="flex justify-between text-sm"><span>Mathematics</span><span class="font-bold text-[#059669]">85%</span></div>
+            <div class="progress-bar mt-1"><div class="progress-fill" style="width:85%"></div></div>
+            <div class="flex justify-between text-[10px] text-dark/40 dark:text-white/30 mt-0.5"><span>Last test: 82%</span><span>⬆ +3%</span></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm"><span>Science</span><span class="font-bold text-[#059669]">90%</span></div>
+            <div class="progress-bar mt-1"><div class="progress-fill" style="width:90%"></div></div>
+            <div class="flex justify-between text-[10px] text-dark/40 dark:text-white/30 mt-0.5"><span>Last test: 88%</span><span>⬆ +2%</span></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm"><span>English</span><span class="font-bold text-[#059669]">78%</span></div>
+            <div class="progress-bar mt-1"><div class="progress-fill" style="width:78%"></div></div>
+            <div class="flex justify-between text-[10px] text-dark/40 dark:text-white/30 mt-0.5"><span>Last test: 75%</span><span>⬆ +3%</span></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm"><span>Languages</span><span class="font-bold text-[#059669]">95%</span></div>
+            <div class="progress-bar mt-1"><div class="progress-fill" style="width:95%"></div></div>
+            <div class="flex justify-between text-[10px] text-dark/40 dark:text-white/30 mt-0.5"><span>Last test: 93%</span><span>⬆ +2%</span></div>
+          </div>
+          <div class="bg-[#ecfdf5] dark:bg-neutral-800 p-4 rounded-2xl text-xs text-dark/70 dark:text-white/70">
+            <i class="fa-regular fa-circle-check text-[#059669] mr-2"></i> You're performing above average. Keep up the great work!
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. PROFILE -->
+    <section id="panel-profile" class="flex-grow hidden p-6 lg:p-10">
+      <div class="space-y-8">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-display font-extrabold text-[#0f172a] dark:text-white">Your <span class="text-[#059669]">Profile</span></h2>
+          <p class="text-sm text-dark/60 dark:text-white/60">Manage your account details and preferences.</p>
+        </div>
+        <div class="bg-white/80 dark:bg-neutral-900/80 p-6 md:p-8 rounded-3xl border border-[#e2e8f0] dark:border-white/10 space-y-6">
+          <div class="flex items-center gap-4">
+            <div class="avatar-placeholder w-16 h-16 text-2xl">SM</div>
+            <div><h3 class="text-xl font-bold text-dark dark:text-white">Sarah Mitchell</h3><p class="text-sm text-dark/60 dark:text-white/60">sarah.mitchell@studypoint.com</p></div>
+          </div>
+          <hr class="border-[#e2e8f0] dark:border-white/10">
+          <div class="grid md:grid-cols-2 gap-4 text-sm">
+            <div><span class="text-dark/50 dark:text-white/40">Student ID</span><br><span class="font-bold text-dark dark:text-white">STU-2026-0042</span></div>
+            <div><span class="text-dark/50 dark:text-white/40">Enrolled</span><br><span class="font-bold text-dark dark:text-white">January 15, 2026</span></div>
+            <div><span class="text-dark/50 dark:text-white/40">Grade</span><br><span class="font-bold text-dark dark:text-white">Grade 10</span></div>
+            <div><span class="text-dark/50 dark:text-white/40">Subjects</span><br><span class="font-bold text-dark dark:text-white">Mathematics, Science, English, Languages</span></div>
+            <div><span class="text-dark/50 dark:text-white/40">Primary Tutor</span><br><span class="font-bold text-dark dark:text-white">James Davis</span></div>
+            <div><span class="text-dark/50 dark:text-white/40">Sessions Completed</span><br><span class="font-bold text-dark dark:text-white">12</span></div>
+          </div>
+          <button class="bg-[#059669] hover:bg-[#047857] text-white px-6 py-3 rounded-xl text-sm font-bold shadow-md transition">Edit Profile</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- footer -->
+    <footer class="bg-white/80 dark:bg-neutral-900/80 backdrop-blur-xl border-t border-[#e2e8f0] dark:border-white/10 py-4 px-6 text-center text-[10px] text-dark/40 dark:text-white/30">
+      &copy; 2026 StudyPoint · Tutoring Center & Learning Support
+    </footer>
+  </main>
+</div>
+
+<!-- ====== SCRIPTS ====== -->
+<script>
+  // ---- sidebar ----
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    if (sidebar.classList.contains('-translate-x-full')) {
+      sidebar.classList.remove('-translate-x-full'); sidebar.classList.add('translate-x-0');
+      overlay.classList.remove('hidden'); overlay.classList.remove('opacity-0'); overlay.classList.add('opacity-100');
+      document.body.style.overflow = 'hidden';
+    } else {
+      sidebar.classList.remove('translate-x-0'); sidebar.classList.add('-translate-x-full');
+      overlay.classList.remove('opacity-100'); overlay.classList.add('opacity-0');
+      document.body.style.overflow = '';
+      setTimeout(() => overlay.classList.add('hidden'), 300);
+    }
+  }
+
+  // ---- tab switching ----
+  function switchTab(tabId) {
+    const panels = ['overview','timetable','attendance','materials','tests','results','profile'];
+    panels.forEach(id => {
+      const p = document.getElementById('panel-'+id);
+      if (p) p.classList.add('hidden');
+    });
+    const target = document.getElementById('panel-'+tabId);
+    if (target) target.classList.remove('hidden');
+
+    const tabs = document.querySelectorAll('.tab-btn');
+    tabs.forEach(t => t.className = t.className.replace(' active', '') + ' ');
+    const activeBtn = document.getElementById('tab-'+tabId);
+    if (activeBtn) activeBtn.className += ' active';
+
+    const labelMap = { overview:'Dashboard', timetable:'Timetable', attendance:'Attendance', materials:'Study Materials', tests:'Tests', results:'Results', profile:'Profile' };
+    document.getElementById('currentTabLabel').innerText = labelMap[tabId] || 'Dashboard';
+
+    // close sidebar on mobile
+    if (window.innerWidth < 1024) {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      if (sidebar && !sidebar.classList.contains('-translate-x-full')) {
+        sidebar.classList.remove('translate-x-0'); sidebar.classList.add('-translate-x-full');
+        overlay.classList.remove('opacity-100'); overlay.classList.add('opacity-0');
+        document.body.style.overflow = '';
+        setTimeout(() => overlay.classList.add('hidden'), 300);
+      }
+    }
+  }
+
+  // ---- dark mode ----
+  function toggleDarkMode() {
+    document.documentElement.classList.toggle('dark');
+    localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+  }
+  if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark');
+
+  // ---- RTL ----
+  function toggleDir() {
+    const html = document.documentElement;
+    const dir = html.getAttribute('dir') === 'rtl' ? 'ltr' : 'rtl';
+    html.setAttribute('dir', dir);
+    localStorage.setItem('dir', dir);
+    document.getElementById('dirToggle').innerText = dir.toUpperCase();
+  }
+  const savedDir = localStorage.getItem('dir');
+  if (savedDir === 'rtl') { document.documentElement.setAttribute('dir','rtl'); document.getElementById('dirToggle').innerText = 'RTL'; }
+  else { document.documentElement.setAttribute('dir','ltr'); document.getElementById('dirToggle').innerText = 'LTR'; }
+
+  // close sidebar on resize to desktop
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 1024) {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      if (sidebar) { sidebar.classList.remove('translate-x-0'); sidebar.classList.add('-translate-x-full'); }
+      if (overlay) { overlay.classList.add('hidden'); overlay.classList.remove('opacity-100'); overlay.classList.add('opacity-0'); }
+      document.body.style.overflow = '';
+    }
+  });
+
+  // default tab
+  document.addEventListener('DOMContentLoaded', () => {
+    switchTab('overview');
+  });
+</script>
+
+</body>
+</html>

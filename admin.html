@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudyPoint · Admin Dashboard</title>
+  <!-- Favicon -->
+<link rel="icon" href="assets/fav.jpeg" type="image/jpeg">  <script src="tailwind.js"></script>
+  <script>tailwind.config = { darkMode: 'class' };</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <style>
+    body { background: #f8fafc; font-family: 'Inter', sans-serif; }
+    .dark body { background: #0f172a; color: #f1f5f9; }
+    .glass-card {
+      background: rgba(255,255,255,0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(5, 150, 105, 0.15);
+    }
+    .dark .glass-card {
+      background: rgba(30,30,30,0.7);
+      border-color: rgba(255,255,255,0.08);
+    }
+    .dark .bg-white { background-color: #1e1e1e !important; }
+    .dark .text-dark { color: #f1f5f9; }
+    .dark .text-dark\/60 { color: #94a3b8; }
+    .dark .border-secondary { border-color: rgba(255,255,255,0.1); }
+    .dark select, .dark input { background-color: #1a1a1a; color: #f8fafc; border-color: rgba(255,255,255,0.15); }
+    [dir="rtl"] .ml-auto { margin-right: auto; margin-left: unset; }
+    [dir="rtl"] .text-left { text-align: right; }
+    .scrollbar-none::-webkit-scrollbar { display: none; }
+    .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+    .tab-btn.active { background: #059669 !important; color: #fff !important; box-shadow: 0 4px 12px rgba(5, 150, 105,0.3) !important; }
+    .dark .tab-btn.active { background: #059669 !important; color: #fff !important; }
+    .tab-btn { transition: all 0.2s; }
+    .badge-active { background: #10b98120; color: #10b981; }
+    .badge-pending { background: #f59e0b20; color: #f59e0b; }
+    .badge-completed { background: #3b82f620; color: #3b82f6; }
+    .avatar-placeholder {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: #059669;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+  </style>
+    <style>
+        h1, h2, h3, h4, h5, h6 { font-weight: 600 !important; }
+        p { font-weight: 500 !important; }
+    </style>
+</head>
+<body class="antialiased overflow-x-hidden relative w-full">
+
+<div class="min-h-screen flex flex-col lg:flex-row bg-[#f8fafc] dark:bg-neutral-950 transition-colors duration-300">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-xl border-r border-[#e2e8f0] dark:border-white/10 flex flex-col justify-between py-6 px-5 transition-transform duration-300 -translate-x-full lg:translate-x-0 h-screen overflow-y-auto shadow-xl">
+    <div>
+      <div class="flex items-center justify-between pb-6 border-b border-[#e2e8f0] dark:border-white/10">
+        <a href="index.html" class="flex items-center gap-2.5 group">
+          <div class="bg-[#059669] text-white w-10 h-10 rounded-xl flex items-center justify-center shadow-lg shadow-[#059669]/20">
+            <i class="fa-solid fa-brain text-base"></i>
+          </div>
+          <span class="font-display font-extrabold text-xl tracking-tight text-[#0f172a] dark:text-white">STUDY<span class="text-[#059669]">POINT</span></span>
+        </a>
+        <button onclick="toggleSidebar()" class="lg:hidden text-dark dark:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+      </div>
+
+      <div class="flex items-center gap-3 bg-[#ecfdf5] dark:bg-neutral-800/60 p-3 rounded-2xl border border-[#e2e8f0] dark:border-white/5 mt-6">
+        <div class="avatar-placeholder"><i class="fa-solid fa-user-tie"></i></div>
+        <div class="text-left"><h5 class="text-sm font-bold text-[#0f172a] dark:text-white">Admin Console</h5><p class="text-[10px] text-[#059669] font-black uppercase tracking-wider">Super Admin</p></div>
+      </div>
+
+      <nav class="mt-8 space-y-1.5">
+        <p class="text-[10px] text-dark/40 dark:text-white/40 font-bold uppercase tracking-wider pl-2">Management</p>
+        <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn active w-full text-left px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2.5 text-dark/70 dark:text-white/70 hover:bg-[#ecfdf5] dark:hover:bg-neutral-800">
+          <i class="fa-solid fa-gauge-high text-sm"></i> <span>Dashboard</span>
+        </button>
+        <button onclick="switchTab('students')" id="tab-students" class="tab-btn w-full text-left px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2.5 text-dark/70 dark:text-white/70 hover:bg-[#ecfdf5] dark:hover:bg-neutral-800">
+          <i class="fa-solid fa-users text-sm"></i> <span>Students</span>
+        </button>
+        <button onclick="switchTab('courses')" id="tab-courses" class="tab-btn w-full text-left px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2.5 text-dark/70 dark:text-white/70 hover:bg-[#ecfdf5] dark:hover:bg-neutral-800">
+          <i class="fa-solid fa-book-open text-sm"></i> <span>Courses</span>
+        </button>
+        <button onclick="switchTab('tutors')" id="tab-tutors" class="tab-btn w-full text-left px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2.5 text-dark/70 dark:text-white/70 hover:bg-[#ecfdf5] dark:hover:bg-neutral-800">
+          <i class="fa-solid fa-chalkboard-user text-sm"></i> <span>Tutors</span>
+        </button>
+        <button onclick="switchTab('timetable')" id="tab-timetable" class="tab-btn w-full text-left px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2.5 text-dark/70 dark:text-white/70 hover:bg-[#ecfdf5] dark:hover:bg-neutral-800">
+          <i class="fa-solid fa-calendar-days text-sm"></i> <span>Timetable</span>
+        </button>
+        <button onclick="switchTab('attendance')" id="tab-attendance" class="tab-btn w-full text-left px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2.5 text-dark/70 dark:text-white/70 hover:bg-[#ecfdf5] dark:hover:bg-neutral-800">
+          <i class="fa-solid fa-clipboard-check text-sm"></i> <span>Attendance</span>
+        </button>
+        <button onclick="switchTab('materials')" id="tab-materials" class="tab-btn w-full text-left px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2.5 text-dark/70 dark:text-white/70 hover:bg-[#ecfdf5] dark:hover:bg-neutral-800">
+          <i class="fa-solid fa-box-open text-sm"></i> <span>Study Materials</span>
+        </button>
+        <button onclick="switchTab('tests')" id="tab-tests" class="tab-btn w-full text-left px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2.5 text-dark/70 dark:text-white/70 hover:bg-[#ecfdf5] dark:hover:bg-neutral-800">
+          <i class="fa-solid fa-file-pen text-sm"></i> <span>Tests</span>
+        </button>
+        <button onclick="switchTab('results')" id="tab-results" class="tab-btn w-full text-left px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2.5 text-dark/70 dark:text-white/70 hover:bg-[#ecfdf5] dark:hover:bg-neutral-800">
+          <i class="fa-solid fa-chart-simple text-sm"></i> <span>Results</span>
+        </button>
+        <button onclick="switchTab('fees')" id="tab-fees" class="tab-btn w-full text-left px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2.5 text-dark/70 dark:text-white/70 hover:bg-[#ecfdf5] dark:hover:bg-neutral-800">
+          <i class="fa-solid fa-dollar-sign text-sm"></i> <span>Fees</span>
+        </button>
+        <button onclick="switchTab('profile')" id="tab-profile" class="tab-btn w-full text-left px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2.5 text-dark/70 dark:text-white/70 hover:bg-[#ecfdf5] dark:hover:bg-neutral-800">
+          <i class="fa-solid fa-user text-sm"></i> <span>Profile</span>
+        </button>
+      </nav>
+    </div>
+
+    <div class="pt-4 border-t border-[#e2e8f0] dark:border-white/10 space-y-2">
+      <a href="student-dashboard.html" class="w-full px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2.5 text-dark/70 dark:text-white/70 hover:bg-[#ecfdf5] dark:hover:bg-neutral-800">
+        <i class="fa-solid fa-circle-user text-sm text-[#059669]"></i> <span>Student Portal</span>
+      </a>
+      <a href="login.html" class="w-full px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20">
+        <i class="fa-solid fa-right-from-bracket text-sm"></i> <span>Logout</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- overlay -->
+  <div id="sidebarOverlay" class="fixed inset-0 bg-black/20 dark:bg-black/50 backdrop-blur-sm z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
+
+  <!-- ===== MAIN ===== -->
+  <main class="flex-grow min-w-0 lg:ml-72 min-h-screen flex flex-col">
+
+    <!-- header -->
+    <header class="h-20 bg-[#f8fafc] dark:bg-neutral-950 border-b border-[#e2e8f0] dark:border-white/10 px-6 flex items-center justify-between sticky top-0 z-30 shadow-sm transition-colors duration-300">
+      <div class="flex items-center gap-4">
+        <button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 rounded-xl bg-[#ecfdf5] dark:bg-white/10 hover:bg-[#059669]/20 transition flex items-center justify-center">
+          <i class="fa-solid fa-bars text-sm"></i>
+        </button>
+        <h2 class="text-sm font-bold text-dark/70 dark:text-white/70"><span id="currentTabLabel" class="text-[#059669]">Dashboard</span></h2>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-xs text-dark/50 dark:text-white/40 hidden sm:inline">Last login: Today, 9:30 AM</span>
+        <button onclick="toggleDarkMode()" class="w-10 h-10 rounded-xl bg-[#ecfdf5] dark:bg-white/10 hover:bg-[#059669]/20 transition flex items-center justify-center text-dark dark:text-white">
+          <i class="fa-solid fa-moon dark:hidden text-sm"></i><i class="fa-solid fa-sun hidden dark:block text-sm"></i>
+        </button>
+        <button onclick="toggleDir()" id="dirToggle" class="w-10 h-10 rounded-xl bg-[#ecfdf5] dark:bg-white/10 hover:bg-[#059669]/20 transition flex items-center justify-center text-dark dark:text-white font-black text-xs">LTR</button>
+        <div class="relative">
+          <button onclick="toggleNotifications(event)" class="w-10 h-10 rounded-xl bg-[#ecfdf5] dark:bg-white/10 hover:bg-[#059669]/20 transition flex items-center justify-center text-dark dark:text-white relative">
+            <i class="fa-solid fa-bell text-sm"></i>
+            <span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 rounded-full bg-red-500 border border-white dark:border-neutral-900 animate-pulse"></span>
+          </button>
+          <div id="notifDropdown" class="absolute right-0 mt-3 w-80 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-xl border border-[#e2e8f0] dark:border-white/10 rounded-2xl shadow-2xl p-4 hidden z-50">
+            <div class="flex justify-between items-center pb-2 border-b border-[#e2e8f0] dark:border-white/5 mb-3">
+              <h4 class="font-bold text-xs uppercase tracking-wider">Alerts</h4>
+              <span class="bg-[#059669]/10 text-[#059669] text-[8px] font-black px-2 py-0.5 rounded-full">3 New</span>
+            </div>
+            <div class="space-y-3 max-h-64 overflow-y-auto pr-1">
+              <div class="flex gap-3 p-2 rounded-xl hover:bg-[#ecfdf5] dark:hover:bg-neutral-800"><div class="w-8 h-8 rounded-lg bg-[#059669]/15 text-[#059669] flex items-center justify-center"><i class="fa-solid fa-user-plus"></i></div><div><h5 class="text-[11px] font-bold">New Student</h5><p class="text-[9px] text-dark/60">Sarah Mitchell registered.</p></div></div>
+              <div class="flex gap-3 p-2 rounded-xl hover:bg-[#ecfdf5] dark:hover:bg-neutral-800"><div class="w-8 h-8 rounded-lg bg-green-100 dark:bg-green-950/20 text-green-500 flex items-center justify-center"><i class="fa-solid fa-calendar-check"></i></div><div><h5 class="text-[11px] font-bold">Session Completed</h5><p class="text-[9px] text-dark/60">James Davis finished Math session.</p></div></div>
+              <div class="flex gap-3 p-2 rounded-xl hover:bg-[#ecfdf5] dark:hover:bg-neutral-800"><div class="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-950/20 text-amber-500 flex items-center justify-center"><i class="fa-solid fa-clock"></i></div><div><h5 class="text-[11px] font-bold">Payment Due</h5><p class="text-[9px] text-dark/60">Invoice #INV-2026-0042 due in 3 days.</p></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="p-4 md:p-8 w-full min-w-0 flex-grow">
+
+      <!-- ===== PANEL: DASHBOARD ===== -->
+      <section id="panel-dashboard" class="space-y-8">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="bg-white/60 dark:bg-neutral-900/60 p-5 rounded-3xl shadow-sm border border-[#e2e8f0] dark:border-white/10 text-center">
+            <i class="fa-solid fa-users text-[#059669] text-xl mb-1"></i>
+            <h5 class="text-[10px] text-dark/50 uppercase font-black">Students</h5>
+            <p class="text-xl font-bold">156</p>
+          </div>
+          <div class="bg-white/60 dark:bg-neutral-900/60 p-5 rounded-3xl shadow-sm border border-[#e2e8f0] dark:border-white/10 text-center">
+            <i class="fa-solid fa-chalkboard-user text-[#059669] text-xl mb-1"></i>
+            <h5 class="text-[10px] text-dark/50 uppercase font-black">Tutors</h5>
+            <p class="text-xl font-bold">12</p>
+          </div>
+          <div class="bg-white/60 dark:bg-neutral-900/60 p-5 rounded-3xl shadow-sm border border-[#e2e8f0] dark:border-white/10 text-center">
+            <i class="fa-solid fa-book-open text-[#059669] text-xl mb-1"></i>
+            <h5 class="text-[10px] text-dark/50 uppercase font-black">Courses</h5>
+            <p class="text-xl font-bold">18</p>
+          </div>
+          <div class="bg-white/60 dark:bg-neutral-900/60 p-5 rounded-3xl shadow-sm border border-[#e2e8f0] dark:border-white/10 text-center">
+            <i class="fa-solid fa-dollar-sign text-[#059669] text-xl mb-1"></i>
+            <h5 class="text-[10px] text-dark/50 uppercase font-black">Revenue (MTD)</h5>
+            <p class="text-xl font-bold">$12,450</p>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="bg-white/60 dark:bg-neutral-900/60 p-6 rounded-3xl border border-[#e2e8f0] dark:border-white/10 shadow-sm">
+            <div class="flex justify-between items-center mb-4">
+              <h4 class="font-bold text-sm">Recent Students</h4>
+              <button onclick="switchTab('students')" class="text-[10px] text-[#059669] font-bold hover:underline">View All</button>
+            </div>
+            <div class="space-y-3">
+              <div class="flex items-center gap-3"><div class="avatar-placeholder w-8 h-8 text-xs">SM</div><div><p class="text-xs font-bold">Sarah Mitchell</p><p class="text-[9px] text-dark/50">Enrolled: May 15, 2026</p></div><span class="badge-active text-[9px] font-black px-2 py-0.5 rounded-full ml-auto">Active</span></div>
+              <div class="flex items-center gap-3"><div class="avatar-placeholder w-8 h-8 text-xs bg-emerald-500">DK</div><div><p class="text-xs font-bold">David Kim</p><p class="text-[9px] text-dark/50">Enrolled: May 10, 2026</p></div><span class="badge-active text-[9px] font-black px-2 py-0.5 rounded-full ml-auto">Active</span></div>
+              <div class="flex items-center gap-3"><div class="avatar-placeholder w-8 h-8 text-xs bg-amber-500">JP</div><div><p class="text-xs font-bold">Jessica Park</p><p class="text-[9px] text-dark/50">Enrolled: May 2, 2026</p></div><span class="badge-pending text-[9px] font-black px-2 py-0.5 rounded-full ml-auto">Pending</span></div>
+            </div>
+          </div>
+          <div class="bg-white/60 dark:bg-neutral-900/60 p-6 rounded-3xl border border-[#e2e8f0] dark:border-white/10 shadow-sm">
+            <div class="flex justify-between items-center mb-4">
+              <h4 class="font-bold text-sm">Upcoming Sessions</h4>
+              <button onclick="switchTab('timetable')" class="text-[10px] text-[#059669] font-bold hover:underline">View All</button>
+            </div>
+            <div class="space-y-3">
+              <div class="flex justify-between items-center p-2 bg-[#ecfdf5] dark:bg-neutral-800 rounded-xl"><div><p class="text-xs font-bold">Math · James D.</p><p class="text-[9px] text-dark/50">Today, 10:00 AM</p></div><span class="badge-active text-[9px] font-black px-2 py-0.5 rounded-full">Confirmed</span></div>
+              <div class="flex justify-between items-center p-2 bg-[#ecfdf5] dark:bg-neutral-800 rounded-xl"><div><p class="text-xs font-bold">Science · Sarah R.</p><p class="text-[9px] text-dark/50">May 30, 2:00 PM</p></div><span class="badge-pending text-[9px] font-black px-2 py-0.5 rounded-full">Pending</span></div>
+              <div class="flex justify-between items-center p-2 bg-[#ecfdf5] dark:bg-neutral-800 rounded-xl"><div><p class="text-xs font-bold">English · Michael L.</p><p class="text-[9px] text-dark/50">Jun 2, 11:00 AM</p></div><span class="badge-active text-[9px] font-black px-2 py-0.5 rounded-full">Confirmed</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="bg-white/60 dark:bg-neutral-900/60 p-6 rounded-3xl border border-[#e2e8f0] dark:border-white/10 shadow-sm min-w-0 overflow-hidden">
+            <h4 class="font-bold text-xs text-dark/70 uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-chart-area text-[#059669]"></i> Monthly Revenue</h4>
+            <div id="revenueChart" class="w-full"></div>
+          </div>
+          <div class="bg-white/60 dark:bg-neutral-900/60 p-6 rounded-3xl border border-[#e2e8f0] dark:border-white/10 shadow-sm min-w-0 overflow-hidden">
+            <h4 class="font-bold text-xs text-dark/70 uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-chart-pie text-[#059669]"></i> Course Distribution</h4>
+            <div id="packageChart" class="w-full"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PANEL: STUDENTS ===== -->
+      <section id="panel-students" class="hidden space-y-8">
+        <div class="bg-bg/20 dark:bg-neutral-800 p-4 sm:p-6 md:p-8 rounded-[2.5rem] border border-[#e2e8f0] dark:border-white/10 shadow-sm">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+            <div><span class="text-[#059669] font-bold text-xs uppercase tracking-widest">Directory</span><h3 class="font-display font-bold text-2xl">Students</h3></div>
+            <div class="flex gap-2"><input type="text" placeholder="Search..." class="bg-white dark:bg-neutral-900 border border-[#e2e8f0] dark:border-white/15 rounded-xl px-4 py-2 text-xs focus:ring-1 focus:ring-[#059669]"><button onclick="showToast('Search', 'Results loaded.', 'fa-search')" class="bg-[#059669] text-white px-4 py-2 rounded-xl text-xs font-bold">Search</button></div>
+          </div>
+          <div class="overflow-x-auto scrollbar-none">
+            <table class="w-full text-left text-xs font-semibold min-w-[700px]">
+              <thead><tr class="border-b text-dark/50"><th class="py-3 px-2">Student</th><th class="py-3 px-2">Grade</th><th class="py-3 px-2">Tutor</th><th class="py-3 px-2">Sessions</th><th class="py-3 px-2">Status</th></tr></thead>
+              <tbody class="divide-y">
+                <tr><td class="py-3 px-2 font-bold">Sarah Mitchell</td><td>Grade 10</td><td>James Davis</td><td>12</td><td><span class="badge-active text-[9px] font-black px-2 py-0.5 rounded-full">Active</span></td></tr>
+                <tr><td class="py-3 px-2 font-bold">David Kim</td><td>Grade 9</td><td>Sarah Roberts</td><td>8</td><td><span class="badge-active text-[9px] font-black px-2 py-0.5 rounded-full">Active</span></td></tr>
+                <tr><td class="py-3 px-2 font-bold">Jessica Park</td><td>Grade 11</td><td>Michael Lee</td><td>5</td><td><span class="badge-pending text-[9px] font-black px-2 py-0.5 rounded-full">Pending</span></td></tr>
+                <tr><td class="py-3 px-2 font-bold">Mark Thompson</td><td>Grade 8</td><td>James Davis</td><td>10</td><td><span class="badge-active text-[9px] font-black px-2 py-0.5 rounded-full">Active</span></td></tr>
+                <tr><td class="py-3 px-2 font-bold">Emily Roberts</td><td>Grade 10</td><td>Anna Patel</td><td>3</td><td><span class="badge-pending text-[9px] font-black px-2 py-0.5 rounded-full">Pending</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PANEL: COURSES ===== -->
+      <section id="panel-courses" class="hidden space-y-8">
+        <div class="bg-bg/20 dark:bg-neutral-800 p-4 sm:p-6 md:p-8 rounded-[2.5rem] border border-[#e2e8f0] dark:border-white/10 shadow-sm">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+            <div><span class="text-[#059669] font-bold text-xs uppercase tracking-widest">Catalog</span><h3 class="font-display font-bold text-2xl">Courses</h3></div>
+            <button onclick="showToast('Add Course', 'New course form opened.', 'fa-plus')" class="bg-[#059669] hover:bg-[#047857] text-white px-4 py-2.5 rounded-xl font-bold text-xs transition shadow-sm flex items-center gap-1.5"><i class="fa-solid fa-plus"></i> Add Course</button>
+          </div>
+          <div class="grid md:grid-cols-3 gap-4">
+            <div class="bg-white dark:bg-neutral-900 p-5 rounded-2xl border border-[#e2e8f0] dark:border-white/5"><h4 class="font-bold">Mathematics</h4><p class="text-xs text-dark/60">Grades 8-12 · 12 sessions</p><span class="text-[10px] bg-[#059669]/10 text-[#059669] px-2 py-0.5 rounded-full inline-block mt-2 font-bold">Active</span></div>
+            <div class="bg-white dark:bg-neutral-900 p-5 rounded-2xl border border-[#e2e8f0] dark:border-white/5"><h4 class="font-bold">Science</h4><p class="text-xs text-dark/60">Grades 9-11 · 10 sessions</p><span class="text-[10px] bg-[#059669]/10 text-[#059669] px-2 py-0.5 rounded-full inline-block mt-2 font-bold">Active</span></div>
+            <div class="bg-white dark:bg-neutral-900 p-5 rounded-2xl border border-[#e2e8f0] dark:border-white/5"><h4 class="font-bold">English</h4><p class="text-xs text-dark/60">Grades 8-12 · 8 sessions</p><span class="text-[10px] bg-amber-100 dark:bg-amber-900/20 text-amber-600 px-2 py-0.5 rounded-full inline-block mt-2 font-bold">Draft</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PANEL: TUTORS ===== -->
+      <section id="panel-tutors" class="hidden space-y-8">
+        <div class="bg-bg/20 dark:bg-neutral-800 p-4 sm:p-6 md:p-8 rounded-[2.5rem] border border-[#e2e8f0] dark:border-white/10 shadow-sm">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+            <div><span class="text-[#059669] font-bold text-xs uppercase tracking-widest">Team</span><h3 class="font-display font-bold text-2xl">Tutors</h3></div>
+            <button onclick="showToast('Add Tutor', 'New tutor form opened.', 'fa-user-plus')" class="bg-[#059669] hover:bg-[#047857] text-white px-4 py-2.5 rounded-xl font-bold text-xs transition shadow-sm flex items-center gap-1.5"><i class="fa-solid fa-plus"></i> Add Tutor</button>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white dark:bg-neutral-900 p-6 rounded-3xl border border-[#e2e8f0] dark:border-white/10 shadow-sm">
+              <div class="flex items-center gap-4 mb-4"><div class="avatar-placeholder w-14 h-14 text-xl">JD</div><div><h4 class="font-bold text-sm">James Davis</h4><p class="text-[10px] text-[#059669] font-bold uppercase">Math Specialist</p></div></div>
+              <div class="space-y-1 text-xs text-dark/70"><p><i class="fa-regular fa-calendar w-4"></i> 10+ Years</p><p><i class="fa-solid fa-star w-4 text-amber-400"></i> 4.9 Rating</p><p><i class="fa-solid fa-users w-4"></i> 25 Students</p></div>
+            </div>
+            <div class="bg-white dark:bg-neutral-900 p-6 rounded-3xl border border-[#e2e8f0] dark:border-white/10 shadow-sm">
+              <div class="flex items-center gap-4 mb-4"><div class="avatar-placeholder w-14 h-14 text-xl bg-emerald-500">SR</div><div><h4 class="font-bold text-sm">Sarah Roberts</h4><p class="text-[10px] text-emerald-500 font-bold uppercase">Science Expert</p></div></div>
+              <div class="space-y-1 text-xs text-dark/70"><p><i class="fa-regular fa-calendar w-4"></i> 8+ Years</p><p><i class="fa-solid fa-star w-4 text-amber-400"></i> 4.8 Rating</p><p><i class="fa-solid fa-users w-4"></i> 18 Students</p></div>
+            </div>
+            <div class="bg-white dark:bg-neutral-900 p-6 rounded-3xl border border-[#e2e8f0] dark:border-white/10 shadow-sm">
+              <div class="flex items-center gap-4 mb-4"><div class="avatar-placeholder w-14 h-14 text-xl bg-amber-500">ML</div><div><h4 class="font-bold text-sm">Michael Lee</h4><p class="text-[10px] text-amber-500 font-bold uppercase">English &amp; Writing</p></div></div>
+              <div class="space-y-1 text-xs text-dark/70"><p><i class="fa-regular fa-calendar w-4"></i> 12+ Years</p><p><i class="fa-solid fa-star w-4 text-amber-400"></i> 4.9 Rating</p><p><i class="fa-solid fa-users w-4"></i> 22 Students</p></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PANEL: TIMETABLE ===== -->
+      <section id="panel-timetable" class="hidden space-y-8">
+        <div class="bg-bg/20 dark:bg-neutral-800 p-4 sm:p-6 md:p-8 rounded-[2.5rem] border border-[#e2e8f0] dark:border-white/10 shadow-sm">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+            <div><span class="text-[#059669] font-bold text-xs uppercase tracking-widest">Schedule</span><h3 class="font-display font-bold text-2xl">Timetable</h3></div>
+            <button onclick="showToast('New Session', 'Session form opened.', 'fa-plus')" class="bg-[#059669] hover:bg-[#047857] text-white px-4 py-2.5 rounded-xl font-bold text-xs transition shadow-sm flex items-center gap-1.5"><i class="fa-solid fa-plus"></i> Add Session</button>
+          </div>
+          <div class="grid lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 bg-white dark:bg-neutral-900 border border-[#e2e8f0] dark:border-white/10 rounded-3xl p-6 shadow-sm">
+              <div class="flex justify-between items-center mb-6"><h4 class="font-bold text-base flex items-center gap-2"><i class="fa-regular fa-calendar text-[#059669]"></i> May 2026</h4><div class="flex gap-2"><button class="w-8 h-8 rounded-lg border hover:bg-[#ecfdf5]"><i class="fa-solid fa-chevron-left text-xs"></i></button><button class="w-8 h-8 rounded-lg border hover:bg-[#ecfdf5]"><i class="fa-solid fa-chevron-right text-xs"></i></button></div></div>
+              <div class="grid grid-cols-7 gap-1 text-center font-bold text-[10px] text-dark/40 uppercase tracking-wider mb-2"><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div><div>Sun</div></div>
+              <div class="grid grid-cols-7 gap-2" id="calendarGrid"></div>
+            </div>
+            <div class="bg-white dark:bg-neutral-900 border border-[#e2e8f0] dark:border-white/10 rounded-3xl p-5 shadow-sm">
+              <div class="flex justify-between items-center pb-3 border-b"><h4 class="font-bold text-sm">Sessions</h4><span id="calSelectedDate" class="text-[10px] text-[#059669] font-bold bg-[#059669]/10 px-3 py-1 rounded-full">May 25</span></div>
+              <div id="scheduleList" class="space-y-4 max-h-[300px] overflow-y-auto pr-1 scrollbar-none mt-3"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PANEL: ATTENDANCE ===== -->
+      <section id="panel-attendance" class="hidden space-y-8">
+        <div class="bg-bg/20 dark:bg-neutral-800 p-4 sm:p-6 md:p-8 rounded-[2.5rem] border border-[#e2e8f0] dark:border-white/10 shadow-sm">
+          <div><span class="text-[#059669] font-bold text-xs uppercase tracking-widest">Tracking</span><h3 class="font-display font-bold text-2xl">Attendance Overview</h3></div>
+          <div class="grid md:grid-cols-3 gap-4 mt-6">
+            <div class="bg-white dark:bg-neutral-900 p-5 rounded-2xl border text-center"><p class="text-[10px] text-dark/50 uppercase font-black">Overall</p><p class="text-3xl font-black text-[#059669]">92%</p></div>
+            <div class="bg-white dark:bg-neutral-900 p-5 rounded-2xl border text-center"><p class="text-[10px] text-dark/50 uppercase font-black">Present</p><p class="text-3xl font-black text-emerald-500">142</p></div>
+            <div class="bg-white dark:bg-neutral-900 p-5 rounded-2xl border text-center"><p class="text-[10px] text-dark/50 uppercase font-black">Absent</p><p class="text-3xl font-black text-red-500">12</p></div>
+          </div>
+          <div class="overflow-x-auto scrollbar-none mt-6">
+            <table class="w-full text-left text-xs font-semibold min-w-[600px]">
+              <thead><tr class="border-b text-dark/50"><th class="py-3 px-2">Student</th><th class="py-3 px-2">Present</th><th class="py-3 px-2">Absent</th><th class="py-3 px-2">Rate</th></tr></thead>
+              <tbody class="divide-y">
+                <tr><td class="py-3 px-2 font-bold">Sarah Mitchell</td><td>14</td><td>1</td><td class="text-emerald-500 font-bold">93%</td></tr>
+                <tr><td class="py-3 px-2 font-bold">David Kim</td><td>8</td><td>0</td><td class="text-emerald-500 font-bold">100%</td></tr>
+                <tr><td class="py-3 px-2 font-bold">Jessica Park</td><td>4</td><td>1</td><td class="text-amber-500 font-bold">80%</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PANEL: STUDY MATERIALS ===== -->
+      <section id="panel-materials" class="hidden space-y-8">
+        <div class="bg-bg/20 dark:bg-neutral-800 p-4 sm:p-6 md:p-8 rounded-[2.5rem] border border-[#e2e8f0] dark:border-white/10 shadow-sm">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+            <div><span class="text-[#059669] font-bold text-xs uppercase tracking-widest">Resources</span><h3 class="font-display font-bold text-2xl">Study Materials</h3></div>
+            <button onclick="showToast('Add Material', 'Upload form opened.', 'fa-upload')" class="bg-[#059669] hover:bg-[#047857] text-white px-4 py-2.5 rounded-xl font-bold text-xs transition shadow-sm flex items-center gap-1.5"><i class="fa-solid fa-upload"></i> Upload</button>
+          </div>
+          <div class="grid md:grid-cols-3 gap-4">
+            <div class="bg-white dark:bg-neutral-900 p-5 rounded-2xl border"><i class="fa-solid fa-file-pdf text-2xl text-[#059669]"></i><h4 class="font-bold mt-2">Math Notes</h4><p class="text-xs text-dark/60">Grade 10 · 15 pages</p></div>
+            <div class="bg-white dark:bg-neutral-900 p-5 rounded-2xl border"><i class="fa-solid fa-file-pdf text-2xl text-[#059669]"></i><h4 class="font-bold mt-2">Science Workbook</h4><p class="text-xs text-dark/60">Grade 9 · 20 pages</p></div>
+            <div class="bg-white dark:bg-neutral-900 p-5 rounded-2xl border"><i class="fa-solid fa-file-video text-2xl text-[#059669]"></i><h4 class="font-bold mt-2">English Grammar</h4><p class="text-xs text-dark/60">Video series · 8 lessons</p></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PANEL: TESTS ===== -->
+      <section id="panel-tests" class="hidden space-y-8">
+        <div class="bg-bg/20 dark:bg-neutral-800 p-4 sm:p-6 md:p-8 rounded-[2.5rem] border border-[#e2e8f0] dark:border-white/10 shadow-sm">
+          <div><span class="text-[#059669] font-bold text-xs uppercase tracking-widest">Assessments</span><h3 class="font-display font-bold text-2xl">Tests</h3></div>
+          <div class="space-y-3 mt-6">
+            <div class="bg-white dark:bg-neutral-900 p-4 rounded-2xl border flex flex-wrap justify-between items-center"><div><span class="font-bold">Math Quiz</span><p class="text-xs text-dark/60">May 30, 2026 · 45 min</p></div><span class="badge-pending text-[9px] font-black px-2 py-0.5 rounded-full">Upcoming</span></div>
+            <div class="bg-white dark:bg-neutral-900 p-4 rounded-2xl border flex flex-wrap justify-between items-center"><div><span class="font-bold">Science Practical</span><p class="text-xs text-dark/60">Jun 5, 2026 · 60 min</p></div><span class="badge-pending text-[9px] font-black px-2 py-0.5 rounded-full">Upcoming</span></div>
+            <div class="bg-white dark:bg-neutral-900 p-4 rounded-2xl border flex flex-wrap justify-between items-center"><div><span class="font-bold">English Literature</span><p class="text-xs text-dark/60">Jun 8, 2026 · 50 min</p></div><span class="badge-pending text-[9px] font-black px-2 py-0.5 rounded-full">Upcoming</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PANEL: RESULTS ===== -->
+      <section id="panel-results" class="hidden space-y-8">
+        <div class="bg-bg/20 dark:bg-neutral-800 p-4 sm:p-6 md:p-8 rounded-[2.5rem] border border-[#e2e8f0] dark:border-white/10 shadow-sm">
+          <div><span class="text-[#059669] font-bold text-xs uppercase tracking-widest">Performance</span><h3 class="font-display font-bold text-2xl">Results</h3></div>
+          <div class="grid md:grid-cols-2 gap-6 mt-6">
+            <div class="bg-white dark:bg-neutral-900 p-5 rounded-2xl border"><h4 class="font-bold text-sm">Average Scores</h4><div class="mt-3 space-y-2"><div class="flex justify-between text-sm"><span>Math</span><span class="font-bold text-[#059669]">85%</span></div><div class="flex justify-between text-sm"><span>Science</span><span class="font-bold text-[#059669]">90%</span></div><div class="flex justify-between text-sm"><span>English</span><span class="font-bold text-[#059669]">78%</span></div></div></div>
+            <div class="bg-white dark:bg-neutral-900 p-5 rounded-2xl border"><h4 class="font-bold text-sm">Top Performers</h4><div class="mt-3 space-y-2 text-sm"><div class="flex justify-between items-center"><span class="font-bold">Sarah Mitchell</span><span class="font-bold text-[#059669]">92%</span></div><div class="flex justify-between items-center"><span class="font-bold">David Kim</span><span class="font-bold text-[#059669]">88%</span></div><div class="flex justify-between items-center"><span class="font-bold">Emily Roberts</span><span class="font-bold text-[#059669]">85%</span></div></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PANEL: FEES ===== -->
+      <section id="panel-fees" class="hidden space-y-8">
+        <div class="bg-bg/20 dark:bg-neutral-800 p-4 sm:p-6 md:p-8 rounded-[2.5rem] border border-[#e2e8f0] dark:border-white/10 shadow-sm">
+          <div><span class="text-[#059669] font-bold text-xs uppercase tracking-widest">Finance</span><h3 class="font-display font-bold text-2xl">Fees &amp; Payments</h3></div>
+          <div class="grid md:grid-cols-3 gap-4 mt-6">
+            <div class="bg-white dark:bg-neutral-900 p-5 rounded-2xl border text-center"><p class="text-[10px] text-dark/50 uppercase font-black">Total Collected</p><p class="text-2xl font-bold text-[#059669]">$12,450</p></div>
+            <div class="bg-white dark:bg-neutral-900 p-5 rounded-2xl border text-center"><p class="text-[10px] text-dark/50 uppercase font-black">Pending</p><p class="text-2xl font-bold text-amber-500">$3,200</p></div>
+            <div class="bg-white dark:bg-neutral-900 p-5 rounded-2xl border text-center"><p class="text-[10px] text-dark/50 uppercase font-black">Students</p><p class="text-2xl font-bold text-[#059669]">156</p></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PANEL: PROFILE ===== -->
+      <section id="panel-profile" class="hidden space-y-8">
+        <div class="bg-bg/20 dark:bg-neutral-800 p-4 sm:p-6 md:p-8 rounded-[2.5rem] border border-[#e2e8f0] dark:border-white/10 shadow-sm max-w-3xl mx-auto">
+          <div class="flex items-center gap-4 mb-6">
+            <div class="avatar-placeholder w-20 h-20 text-3xl">AD</div>
+            <div><h3 class="text-2xl font-bold text-dark dark:text-white">Admin User</h3><p class="text-sm text-dark/60">admin@studypoint.com</p><span class="text-[10px] bg-[#059669]/10 text-[#059669] px-3 py-0.5 rounded-full font-bold">Super Admin</span></div>
+          </div>
+          <div class="grid md:grid-cols-2 gap-4 text-sm">
+            <div><span class="text-dark/50">Full Name</span><br><span class="font-bold">Admin User</span></div>
+            <div><span class="text-dark/50">Email</span><br><span class="font-bold">admin@studypoint.com</span></div>
+            <div><span class="text-dark/50">Role</span><br><span class="font-bold">Super Administrator</span></div>
+            <div><span class="text-dark/50">Joined</span><br><span class="font-bold">January 1, 2026</span></div>
+          </div>
+          <button class="mt-6 bg-[#059669] hover:bg-[#047857] text-white px-6 py-3 rounded-xl text-sm font-bold shadow-md transition">Edit Profile</button>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- footer -->
+    <footer class="bg-white/80 dark:bg-neutral-900/80 backdrop-blur-xl border-t border-[#e2e8f0] dark:border-white/10 py-4 px-6 text-center text-[10px] text-dark/40 dark:text-white/30">
+      &copy; 2026 StudyPoint · Tutoring Center & Learning Support
+    </footer>
+  </main>
+</div>
+
+<script>
+  // ---- SIDEBAR ----
+  function toggleSidebar() {
+    const s = document.getElementById('sidebar'), o = document.getElementById('sidebarOverlay');
+    if (s.classList.contains('-translate-x-full')) { s.classList.remove('-translate-x-full'); s.classList.add('translate-x-0'); o.classList.remove('hidden'); o.classList.remove('opacity-0'); o.classList.add('opacity-100'); document.body.style.overflow='hidden'; }
+    else { s.classList.remove('translate-x-0'); s.classList.add('-translate-x-full'); o.classList.remove('opacity-100'); o.classList.add('opacity-0'); document.body.style.overflow=''; setTimeout(()=>o.classList.add('hidden'),300); }
+  }
+
+  // ---- TABS ----
+  function switchTab(id) {
+    const panels = ['dashboard','students','courses','tutors','timetable','attendance','materials','tests','results','fees','profile'];
+    panels.forEach(p => { const el = document.getElementById('panel-'+p); if(el) el.classList.add('hidden'); });
+    const target = document.getElementById('panel-'+id); if(target) target.classList.remove('hidden');
+    const btns = document.querySelectorAll('.tab-btn');
+    btns.forEach(b => b.className = b.className.replace(' active','') + ' ');
+    const active = document.getElementById('tab-'+id); if(active) active.className += ' active';
+    const map = { dashboard:'Dashboard', students:'Students', courses:'Courses', tutors:'Tutors', timetable:'Timetable', attendance:'Attendance', materials:'Study Materials', tests:'Tests', results:'Results', fees:'Fees', profile:'Profile' };
+    document.getElementById('currentTabLabel').innerText = map[id] || 'Dashboard';
+    if (window.innerWidth < 1024) { const s=document.getElementById('sidebar'), o=document.getElementById('sidebarOverlay'); if(s && !s.classList.contains('-translate-x-full')) { s.classList.remove('translate-x-0'); s.classList.add('-translate-x-full'); o.classList.remove('opacity-100'); o.classList.add('opacity-0'); document.body.style.overflow=''; setTimeout(()=>o.classList.add('hidden'),300); } }
+    setTimeout(() => { if (id === 'dashboard') { if (window.revenueChart) window.revenueChart.render(); if (window.packageChart) window.packageChart.render(); } }, 100);
+  }
+
+  // ---- TOAST ----
+  function showToast(title, msg, icon='fa-bell') {
+    const d = document.createElement('div');
+    d.className = 'fixed bottom-6 right-6 z-50 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-xl border border-[#059669]/30 p-4 rounded-2xl shadow-2xl flex items-center gap-3.5 max-w-sm transition-all duration-500 transform translate-y-20 opacity-0';
+    d.innerHTML = `<div class="w-10 h-10 rounded-xl bg-[#059669]/10 text-[#059669] flex items-center justify-center text-lg"><i class="fa-solid ${icon}"></i></div><div><h5 class="text-xs font-bold text-dark dark:text-white">${title}</h5><p class="text-[10px] text-dark/70 dark:text-white/60">${msg}</p></div>`;
+    document.body.appendChild(d);
+    requestAnimationFrame(() => { d.classList.remove('translate-y-20','opacity-0'); d.classList.add('translate-y-0','opacity-100'); });
+    setTimeout(() => { d.classList.remove('translate-y-0','opacity-100'); d.classList.add('translate-y-20','opacity-0'); setTimeout(()=>d.remove(),500); }, 3500);
+  }
+
+  // ---- NOTIFICATIONS ----
+  function toggleNotifications(e) { e.stopPropagation(); document.getElementById('notifDropdown').classList.toggle('hidden'); }
+  document.addEventListener('click', () => { document.getElementById('notifDropdown').classList.add('hidden'); });
+
+  // ---- DARK / RTL ----
+  function toggleDarkMode() { document.documentElement.classList.toggle('dark'); localStorage.setItem('theme', document.documentElement.classList.contains('dark')?'dark':'light'); }
+  if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark');
+  function toggleDir() { const dir = document.documentElement.getAttribute('dir') === 'rtl' ? 'ltr' : 'rtl'; document.documentElement.setAttribute('dir', dir); localStorage.setItem('dir', dir); document.getElementById('dirToggle').innerText = dir.toUpperCase(); }
+  const sd = localStorage.getItem('dir'); if(sd==='rtl'){ document.documentElement.setAttribute('dir','rtl'); document.getElementById('dirToggle').innerText='RTL'; } else { document.documentElement.setAttribute('dir','ltr'); document.getElementById('dirToggle').innerText='LTR'; }
+
+  // ---- CALENDAR ----
+  function initCalendar() {
+    const grid = document.getElementById('calendarGrid'); if(!grid) return;
+    grid.innerHTML = '';
+    for(let i=0; i<4; i++){ const d=document.createElement('div'); d.className='aspect-square bg-transparent'; grid.appendChild(d); }
+    const bookings = { 5:[{time:'09:00',student:'Michael',lesson:'Basic'}], 12:[{time:'14:30',student:'Sarah',lesson:'Parking'}], 18:[{time:'10:15',student:'Olivia',lesson:'Highway'}], 25:[{time:'10:00',student:'Sarah',lesson:'Math'},{time:'11:45',student:'Mark',lesson:'Science'},{time:'13:15',student:'James',lesson:'English'}], 28:[{time:'11:30',student:'Clara',lesson:'Languages'}] };
+    for(let d=1; d<=31; d++){
+      const btn = document.createElement('button');
+      const has = bookings[d];
+      btn.className = `aspect-square rounded-xl text-[11px] font-black transition flex flex-col items-center justify-center relative hover:bg-[#ecfdf5] text-dark dark:text-white ${d===25?'bg-[#059669] text-white shadow-sm ring-2 ring-[#059669]/30':''}`;
+      btn.innerHTML = `<span>${d}</span>${has ? `<span class="absolute bottom-1.5 w-1.5 h-1.5 rounded-full bg-[#059669] animate-pulse"></span>` : ''}`;
+      btn.onclick = ()=>{
+        document.getElementById('calSelectedDate').innerText = `May ${d}`;
+        const all = grid.querySelectorAll('button');
+        all.forEach(b => { b.classList.remove('bg-[#059669]','text-white','shadow-sm','ring-2','ring-[#059669]/30'); b.classList.add('text-dark','dark:text-white'); });
+        btn.classList.add('bg-[#059669]','text-white','shadow-sm','ring-2','ring-[#059669]/30');
+        btn.classList.remove('text-dark','dark:text-white');
+        loadSchedule(d, bookings[d]);
+      };
+      grid.appendChild(btn);
+    }
+    loadSchedule(25, bookings[25]);
+  }
+  function loadSchedule(day, list) {
+    const container = document.getElementById('scheduleList'); if(!container) return;
+    container.innerHTML = '';
+    if(!list || list.length===0){ container.innerHTML = '<div class="py-12 text-center text-dark/40"><i class="fa-regular fa-calendar-xmark text-3xl"></i><p class="text-[10px] font-bold mt-2">No Sessions</p></div>'; return; }
+    list.forEach(s => {
+      const el = document.createElement('div');
+      el.className = 'p-3 bg-[#ecfdf5] dark:bg-neutral-800/40 rounded-2xl border border-[#e2e8f0] dark:border-white/5 space-y-1 text-left';
+      el.innerHTML = `<div class="flex justify-between text-[10px]"><span class="font-bold text-[#059669]">${s.time}</span><span class="bg-[#059669]/10 text-[#059669] px-2 py-0.5 rounded text-[8px] font-black">${s.student}</span></div><h5 class="text-xs font-bold">${s.lesson}</h5>`;
+      container.appendChild(el);
+    });
+  }
+
+  // ---- CHARTS ----
+  document.addEventListener('DOMContentLoaded', () => {
+    initCalendar();
+    const rc = new ApexCharts(document.querySelector('#revenueChart'), {
+      chart: { type: 'area', height: 240, toolbar: { show: false }, fontFamily: 'Inter' },
+      series: [{ name: 'Revenue', data: [6200,6800,7500,8200,12450] }],
+      colors: ['#059669'], stroke: { curve: 'smooth', width: 2.5 },
+      xaxis: { categories: ['Jan','Feb','Mar','Apr','May'], labels: { style: { colors: '#94a3b8', fontSize:'9px', fontWeight:600 } } },
+      yaxis: { labels: { style: { colors: '#94a3b8', fontSize:'9px', fontWeight:600 }, formatter: v => '$'+v } },
+      grid: { borderColor: 'rgba(5, 150, 105,0.08)', strokeDashArray: 3 },
+      tooltip: { theme: document.documentElement.classList.contains('dark') ? 'dark' : 'light' }
+    });
+    rc.render(); window.revenueChart = rc;
+
+    const pc = new ApexCharts(document.querySelector('#packageChart'), {
+      chart: { type: 'donut', height: 240, fontFamily: 'Inter' },
+      series: [45, 30, 25],
+      labels: ['Mathematics', 'Science', 'English'],
+      colors: ['#059669', '#10b981', '#6ee7b7'],
+      dataLabels: { enabled: false },
+      legend: { position: 'bottom', horizontalAlign: 'center', labels: { colors: '#94a3b8' }, fontSize:'10px', fontWeight:600 },
+      plotOptions: { pie: { donut: { size: '70%', labels: { show: true, name: { show: true, color:'#94a3b8', fontSize:'9px' }, value: { show: true, color:'#059669', fontSize:'16px', fontWeight:900 }, total: { show: true, label: 'Courses', color:'#94a3b8', fontSize:'9px' } } } } },
+      tooltip: { theme: document.documentElement.classList.contains('dark') ? 'dark' : 'light' }
+    });
+    pc.render(); window.packageChart = pc;
+
+    // make functions global
+    window.toggleSidebar = toggleSidebar;
+    window.switchTab = switchTab;
+    window.showToast = showToast;
+    window.toggleNotifications = toggleNotifications;
+  });
+</script>
+</body>
+</html>
