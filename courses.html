@@ -402,6 +402,76 @@
             color: #94A3B8;
         }
 
+        /* Card CTA Action Buttons */
+        .course-card .card-actions {
+            margin-top: 1.25rem;
+            padding-top: 1rem;
+            border-top: 1px solid #E2E8F0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .dark .course-card .card-actions {
+            border-top-color: #334155;
+        }
+        .btn-card-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 0.7rem 1.25rem;
+            border-radius: 9999px;
+            background: #059669;
+            color: #FFFFFF !important;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-card-primary:hover {
+            background: #047857;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(5, 150, 105, 0.35);
+            color: #FFFFFF !important;
+        }
+        .btn-card-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 0.55rem 1.25rem;
+            border-radius: 9999px;
+            background: transparent;
+            border: 1.5px solid #059669;
+            color: #059669 !important;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+            transition: all 0.25s ease;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .btn-card-secondary:hover {
+            background: #059669;
+            color: #FFFFFF !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
+        }
+        .dark .btn-card-secondary {
+            border-color: #10B981;
+            color: #10B981 !important;
+        }
+        .dark .btn-card-secondary:hover {
+            background: #10B981;
+            color: #0F172A !important;
+        }
+
         /* Image placeholders */
         .img-grade1 { background-image: url('assets/grade1.jpg'); }
         .img-grade2 { background-image: url('assets/students.jpg'); }
@@ -591,6 +661,14 @@
                             <span>Basic Math</span>
                             <span>Science Exploration</span>
                         </div>
+                        <div class="card-actions">
+                            <a href="contact.html?type=course&name=Elementary+School" onclick="openEnrollModal('Elementary School (Grades K–5)', 'Course'); return false;" class="btn-card-primary">
+                                <i class="fas fa-graduation-cap"></i> Join Course
+                            </a>
+                            <a href="contact.html?type=session&name=Elementary+School" onclick="openEnrollModal('Elementary School (Grades K–5)', 'Session'); return false;" class="btn-card-secondary">
+                                <i class="fas fa-calendar-check"></i> Join a Session
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <!-- Grade 6-8 -->
@@ -608,6 +686,14 @@
                             <span>Life Science</span>
                             <span>Essay Writing</span>
                         </div>
+                        <div class="card-actions">
+                            <a href="contact.html?type=course&name=Middle+School" onclick="openEnrollModal('Middle School (Grades 6–8)', 'Course'); return false;" class="btn-card-primary">
+                                <i class="fas fa-graduation-cap"></i> Join Course
+                            </a>
+                            <a href="contact.html?type=session&name=Middle+School" onclick="openEnrollModal('Middle School (Grades 6–8)', 'Session'); return false;" class="btn-card-secondary">
+                                <i class="fas fa-calendar-check"></i> Join a Session
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <!-- Grade 9-12 -->
@@ -624,6 +710,14 @@
                             <span>Algebra II &amp; Calculus</span>
                             <span>Physics &amp; Chemistry</span>
                             <span>SAT/ACT Prep</span>
+                        </div>
+                        <div class="card-actions">
+                            <a href="contact.html?type=course&name=High+School" onclick="openEnrollModal('High School (Grades 9–12)', 'Course'); return false;" class="btn-card-primary">
+                                <i class="fas fa-graduation-cap"></i> Join Course
+                            </a>
+                            <a href="contact.html?type=session&name=High+School" onclick="openEnrollModal('High School (Grades 9–12)', 'Session'); return false;" class="btn-card-secondary">
+                                <i class="fas fa-calendar-check"></i> Join a Session
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -654,6 +748,14 @@
                             <span>Geometry</span>
                             <span>Calculus</span>
                         </div>
+                        <div class="card-actions">
+                            <a href="contact.html?type=course&name=Mathematics" onclick="openEnrollModal('Mathematics', 'Course'); return false;" class="btn-card-primary">
+                                <i class="fas fa-graduation-cap"></i> Join Course
+                            </a>
+                            <a href="contact.html?type=session&name=Mathematics" onclick="openEnrollModal('Mathematics', 'Session'); return false;" class="btn-card-secondary">
+                                <i class="fas fa-calendar-check"></i> Join a Session
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="course-card">
@@ -668,6 +770,14 @@
                             <span>Physics</span>
                             <span>Chemistry</span>
                             <span>Biology</span>
+                        </div>
+                        <div class="card-actions">
+                            <a href="contact.html?type=course&name=Science" onclick="openEnrollModal('Science', 'Course'); return false;" class="btn-card-primary">
+                                <i class="fas fa-graduation-cap"></i> Join Course
+                            </a>
+                            <a href="contact.html?type=session&name=Science" onclick="openEnrollModal('Science', 'Session'); return false;" class="btn-card-secondary">
+                                <i class="fas fa-calendar-check"></i> Join a Session
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -684,6 +794,14 @@
                             <span>Writing</span>
                             <span>Literature</span>
                         </div>
+                        <div class="card-actions">
+                            <a href="contact.html?type=course&name=English+Language+Arts" onclick="openEnrollModal('English & Language Arts', 'Course'); return false;" class="btn-card-primary">
+                                <i class="fas fa-graduation-cap"></i> Join Course
+                            </a>
+                            <a href="contact.html?type=session&name=English+Language+Arts" onclick="openEnrollModal('English & Language Arts', 'Session'); return false;" class="btn-card-secondary">
+                                <i class="fas fa-calendar-check"></i> Join a Session
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="course-card">
@@ -698,6 +816,14 @@
                             <span>Spanish</span>
                             <span>French</span>
                             <span>ESL</span>
+                        </div>
+                        <div class="card-actions">
+                            <a href="contact.html?type=course&name=Languages" onclick="openEnrollModal('Languages', 'Course'); return false;" class="btn-card-primary">
+                                <i class="fas fa-graduation-cap"></i> Join Course
+                            </a>
+                            <a href="contact.html?type=session&name=Languages" onclick="openEnrollModal('Languages', 'Session'); return false;" class="btn-card-secondary">
+                                <i class="fas fa-calendar-check"></i> Join a Session
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -714,6 +840,14 @@
                             <span>Web Design</span>
                             <span>Robotics</span>
                         </div>
+                        <div class="card-actions">
+                            <a href="contact.html?type=course&name=Computer+Science" onclick="openEnrollModal('Computer Science', 'Course'); return false;" class="btn-card-primary">
+                                <i class="fas fa-graduation-cap"></i> Join Course
+                            </a>
+                            <a href="contact.html?type=session&name=Computer+Science" onclick="openEnrollModal('Computer Science', 'Session'); return false;" class="btn-card-secondary">
+                                <i class="fas fa-calendar-check"></i> Join a Session
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="course-card">
@@ -728,6 +862,14 @@
                             <span>Drawing</span>
                             <span>Music Theory</span>
                             <span>Performance</span>
+                        </div>
+                        <div class="card-actions">
+                            <a href="contact.html?type=course&name=Arts+Music" onclick="openEnrollModal('Arts & Music', 'Course'); return false;" class="btn-card-primary">
+                                <i class="fas fa-graduation-cap"></i> Join Course
+                            </a>
+                            <a href="contact.html?type=session&name=Arts+Music" onclick="openEnrollModal('Arts & Music', 'Session'); return false;" class="btn-card-secondary">
+                                <i class="fas fa-calendar-check"></i> Join a Session
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -759,6 +901,14 @@
                             <span>Small Groups</span>
                             <span>1-on-1 Available</span>
                         </div>
+                        <div class="card-actions">
+                            <a href="contact.html?type=session&name=Morning+Session" onclick="openEnrollModal('Morning Session (8:00 AM – 12:00 PM)', 'Session'); return false;" class="btn-card-primary">
+                                <i class="fas fa-calendar-check"></i> Join a Session
+                            </a>
+                            <a href="contact.html?type=course&name=Morning+Session+Course" onclick="openEnrollModal('Morning Session Schedule', 'Course'); return false;" class="btn-card-secondary">
+                                <i class="fas fa-graduation-cap"></i> Join Full Course
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="course-card">
@@ -775,6 +925,14 @@
                             <span>Small Groups</span>
                             <span>1-on-1 Available</span>
                         </div>
+                        <div class="card-actions">
+                            <a href="contact.html?type=session&name=Afternoon+Session" onclick="openEnrollModal('Afternoon Session (1:00 PM – 5:00 PM)', 'Session'); return false;" class="btn-card-primary">
+                                <i class="fas fa-calendar-check"></i> Join a Session
+                            </a>
+                            <a href="contact.html?type=course&name=Afternoon+Session+Course" onclick="openEnrollModal('Afternoon Session Schedule', 'Course'); return false;" class="btn-card-secondary">
+                                <i class="fas fa-graduation-cap"></i> Join Full Course
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="course-card">
@@ -790,6 +948,14 @@
                             <span>Mon – Fri Evenings</span>
                             <span>Saturday Sessions</span>
                             <span>1-on-1 Available</span>
+                        </div>
+                        <div class="card-actions">
+                            <a href="contact.html?type=session&name=Evening+Weekend+Session" onclick="openEnrollModal('Evening & Weekend Session (5:00 PM – 8:00 PM & Sat)', 'Session'); return false;" class="btn-card-primary">
+                                <i class="fas fa-calendar-check"></i> Join a Session
+                            </a>
+                            <a href="contact.html?type=course&name=Evening+Weekend+Course" onclick="openEnrollModal('Evening & Weekend Schedule', 'Course'); return false;" class="btn-card-secondary">
+                                <i class="fas fa-graduation-cap"></i> Join Full Course
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -922,8 +1088,344 @@
     </footer>
 
 
+    <!-- ======== ENROLLMENT / SESSION BOOKING MODAL ======== -->
+    <div id="enrollModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto transition-opacity duration-300">
+        <div class="relative w-full max-w-lg bg-white dark:bg-[#1E293B] rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden my-8 transform transition-all duration-300 scale-95 opacity-0" id="modalDialog">
+            <!-- Modal Header -->
+            <div class="relative bg-gradient-to-r from-[#059669] to-[#047857] text-white p-6 sm:p-7">
+                <button type="button" onclick="closeEnrollModal()" class="absolute top-5 right-5 text-white/80 hover:text-white bg-white/10 hover:bg-white/20 rounded-full w-9 h-9 flex items-center justify-center transition">
+                    <i class="fas fa-times text-base"></i>
+                </button>
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-2xl" id="modalIcon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <span id="modalBadge" class="text-xs uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-white/20 text-white inline-block mb-1">Course Enrollment</span>
+                        <h3 id="modalTitle" class="text-xl sm:text-2xl font-bold font-display text-white">Join Course</h3>
+                    </div>
+                </div>
+                <p id="modalSubtitle" class="text-white/85 text-sm mt-2">Take the next step in your academic journey with StudyPoint.</p>
+            </div>
+
+            <!-- Modal Body / Form -->
+            <div class="p-6 sm:p-7 max-h-[75vh] overflow-y-auto">
+                <!-- Form view -->
+                <form id="enrollForm" onsubmit="handleEnrollSubmit(event)" class="space-y-4">
+                    <!-- Enrollment Type Switcher -->
+                    <div class="bg-slate-100 dark:bg-slate-800/80 p-1.5 rounded-2xl flex gap-1">
+                        <button type="button" id="tabCourse" onclick="setEnrollmentType('Course')" class="flex-1 py-2 text-xs sm:text-sm font-bold rounded-xl transition flex items-center justify-center gap-1.5 bg-white dark:bg-[#059669] text-[#059669] dark:text-white shadow-sm">
+                            <i class="fas fa-graduation-cap"></i> Full Course
+                        </button>
+                        <button type="button" id="tabSession" onclick="setEnrollmentType('Session')" class="flex-1 py-2 text-xs sm:text-sm font-bold rounded-xl transition flex items-center justify-center gap-1.5 text-slate-600 dark:text-slate-300 hover:text-[#059669]">
+                            <i class="fas fa-calendar-check"></i> Single Session
+                        </button>
+                    </div>
+
+                    <!-- Target Selection Preview -->
+                    <div class="bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 rounded-2xl p-3.5 flex items-center justify-between">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-lg bg-[#059669] text-white flex items-center justify-center text-sm">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <div class="text-[11px] font-semibold text-emerald-800 dark:text-emerald-300 uppercase tracking-wider" id="selectedLabel">Selected Course</div>
+                                <div class="text-sm font-bold text-slate-800 dark:text-white" id="selectedName">Mathematics</div>
+                            </div>
+                        </div>
+                        <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/60 text-[#059669] dark:text-emerald-300" id="selectedTypeBadge">Course</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        <!-- Student Name -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Student Full Name *</label>
+                            <input type="text" id="studentName" required placeholder="e.g. Alex Johnson" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-[#059669] focus:ring-1 focus:ring-[#059669] transition">
+                        </div>
+                        <!-- Parent / Contact Name -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Parent/Guardian Name</label>
+                            <input type="text" id="parentName" placeholder="e.g. Sarah Johnson" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-[#059669] focus:ring-1 focus:ring-[#059669] transition">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        <!-- Email -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Email Address *</label>
+                            <input type="email" id="studentEmail" required placeholder="alex@example.com" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-[#059669] focus:ring-1 focus:ring-[#059669] transition">
+                        </div>
+                        <!-- Phone -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Phone Number *</label>
+                            <input type="tel" id="studentPhone" required placeholder="(555) 000-0000" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-[#059669] focus:ring-1 focus:ring-[#059669] transition">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        <!-- Grade Level -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Grade Level *</label>
+                            <select id="modalGradeSelect" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-[#059669] transition">
+                                <option value="Elementary (K-5)">Elementary School (Grades K – 5)</option>
+                                <option value="Middle (6-8)">Middle School (Grades 6 – 8)</option>
+                                <option value="High (9-12)">High School (Grades 9 – 12)</option>
+                            </select>
+                        </div>
+                        <!-- Preferred Session Time -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Preferred Time Slot *</label>
+                            <select id="modalTimingSelect" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-[#059669] transition">
+                                <option value="Morning (8:00 AM – 12:00 PM)">Morning Session (8:00 AM – 12:00 PM)</option>
+                                <option value="Afternoon (1:00 PM – 5:00 PM)">Afternoon Session (1:00 PM – 5:00 PM)</option>
+                                <option value="Evening (5:00 PM – 8:00 PM & Sat)">Evening & Weekend (5:00 PM – 8:00 PM & Sat)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Subject Focus -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Subject Focus</label>
+                        <select id="modalSubjectSelect" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-[#059669] transition">
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="Science">Science</option>
+                            <option value="English & Language Arts">English & Language Arts</option>
+                            <option value="Languages">Languages</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Arts & Music">Arts & Music</option>
+                            <option value="Multiple / General Tutoring">Multiple Subjects / General Tutoring</option>
+                        </select>
+                    </div>
+
+                    <!-- Additional notes -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Specific Goals or Topics (Optional)</label>
+                        <textarea id="studentNotes" rows="2" placeholder="e.g. Preparing for exams, homework help, improving reading comprehension..." class="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-[#059669] transition"></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" id="modalSubmitBtn" class="w-full py-3.5 px-6 rounded-full bg-[#059669] hover:bg-[#047857] text-white font-bold text-sm shadow-lg shadow-[#059669]/25 transition flex items-center justify-center gap-2">
+                        <span>Confirm Enrollment</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+
+                    <p class="text-center text-[11px] text-slate-500 dark:text-slate-400">
+                        <i class="fas fa-shield-alt text-[#059669] mr-1"></i> Free consultation included. No upfront payment required.
+                    </p>
+                </form>
+
+                <!-- Success Confirmation State (Hidden by default) -->
+                <div id="enrollSuccess" class="hidden text-center py-6 space-y-4">
+                    <div class="w-16 h-16 bg-emerald-100 dark:bg-emerald-950/50 text-[#059669] rounded-full flex items-center justify-center text-3xl mx-auto shadow-inner">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-2xl font-bold font-display text-slate-800 dark:text-white" id="successTitle">Enrollment Confirmed!</h4>
+                        <p class="text-slate-600 dark:text-slate-300 text-sm mt-1" id="successMessage">
+                            We've reserved your spot. An advisor will contact you shortly to finalize your schedule.
+                        </p>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-4 text-left text-xs space-y-1.5 border border-slate-200 dark:border-slate-700" id="successSummary">
+                        <!-- Populated by JS -->
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-2 pt-2">
+                        <a href="client.html" class="flex-1 py-3 px-4 rounded-full bg-[#059669] text-white text-xs font-bold text-center hover:bg-[#047857] transition">
+                            <i class="fas fa-user-graduate mr-1"></i> Open Student Portal
+                        </a>
+                        <button type="button" onclick="closeEnrollModal()" class="flex-1 py-3 px-4 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-bold hover:bg-slate-300 transition">
+                            Done
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ======== SCRIPTS ======== -->
     <script>
+        // Modal logic for Join Course / Join Session
+        let currentEnrollType = 'Course';
+        let currentTargetName = 'Mathematics';
+
+        function openEnrollModal(targetName, type) {
+            currentTargetName = targetName || 'General Program';
+            currentEnrollType = type || 'Course';
+
+            const modal = document.getElementById('enrollModal');
+            const dialog = document.getElementById('modalDialog');
+            const form = document.getElementById('enrollForm');
+            const success = document.getElementById('enrollSuccess');
+
+            if (!modal || !dialog) return;
+
+            // Reset form view
+            form.reset();
+            form.classList.remove('hidden');
+            success.classList.add('hidden');
+
+            // Apply selected item name
+            document.getElementById('selectedName').textContent = currentTargetName;
+            
+            // Auto match grade or subject if applicable
+            const gradeSelect = document.getElementById('modalGradeSelect');
+            const subjectSelect = document.getElementById('modalSubjectSelect');
+            const timingSelect = document.getElementById('modalTimingSelect');
+
+            if (currentTargetName.includes('Elementary')) gradeSelect.value = 'Elementary (K-5)';
+            else if (currentTargetName.includes('Middle')) gradeSelect.value = 'Middle (6-8)';
+            else if (currentTargetName.includes('High')) gradeSelect.value = 'High (9-12)';
+
+            if (['Mathematics', 'Science', 'English & Language Arts', 'Languages', 'Computer Science', 'Arts & Music'].includes(currentTargetName)) {
+                subjectSelect.value = currentTargetName;
+            }
+
+            if (currentTargetName.includes('Morning')) timingSelect.value = 'Morning (8:00 AM – 12:00 PM)';
+            else if (currentTargetName.includes('Afternoon')) timingSelect.value = 'Afternoon (1:00 PM – 5:00 PM)';
+            else if (currentTargetName.includes('Evening') || currentTargetName.includes('Weekend')) timingSelect.value = 'Evening (5:00 PM – 8:00 PM & Sat)';
+
+            setEnrollmentType(currentEnrollType);
+
+            // Display modal
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+
+            setTimeout(() => {
+                dialog.classList.remove('scale-95', 'opacity-0');
+                dialog.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeEnrollModal() {
+            const modal = document.getElementById('enrollModal');
+            const dialog = document.getElementById('modalDialog');
+            if (!modal || !dialog) return;
+
+            dialog.classList.remove('scale-100', 'opacity-100');
+            dialog.classList.add('scale-95', 'opacity-0');
+
+            setTimeout(() => {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 200);
+        }
+
+        function setEnrollmentType(type) {
+            currentEnrollType = type;
+            const isCourse = type === 'Course';
+            const tabCourse = document.getElementById('tabCourse');
+            const tabSession = document.getElementById('tabSession');
+            const modalBadge = document.getElementById('modalBadge');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalIcon = document.getElementById('modalIcon');
+            const modalSubtitle = document.getElementById('modalSubtitle');
+            const selectedLabel = document.getElementById('selectedLabel');
+            const selectedTypeBadge = document.getElementById('selectedTypeBadge');
+            const modalSubmitBtn = document.getElementById('modalSubmitBtn');
+
+            if (isCourse) {
+                tabCourse.className = 'flex-1 py-2 text-xs sm:text-sm font-bold rounded-xl transition flex items-center justify-center gap-1.5 bg-white dark:bg-[#059669] text-[#059669] dark:text-white shadow-sm';
+                tabSession.className = 'flex-1 py-2 text-xs sm:text-sm font-bold rounded-xl transition flex items-center justify-center gap-1.5 text-slate-600 dark:text-slate-300 hover:text-[#059669]';
+                modalBadge.textContent = 'Course Enrollment';
+                modalTitle.textContent = 'Join ' + currentTargetName;
+                modalIcon.innerHTML = '<i class="fas fa-graduation-cap"></i>';
+                modalSubtitle.textContent = 'Enroll in the comprehensive course curriculum tailored for excellence.';
+                selectedLabel.textContent = 'Selected Course';
+                selectedTypeBadge.textContent = 'Full Course';
+                modalSubmitBtn.innerHTML = '<span>Confirm Enrollment</span> <i class="fas fa-arrow-right"></i>';
+            } else {
+                tabSession.className = 'flex-1 py-2 text-xs sm:text-sm font-bold rounded-xl transition flex items-center justify-center gap-1.5 bg-white dark:bg-[#059669] text-[#059669] dark:text-white shadow-sm';
+                tabCourse.className = 'flex-1 py-2 text-xs sm:text-sm font-bold rounded-xl transition flex items-center justify-center gap-1.5 text-slate-600 dark:text-slate-300 hover:text-[#059669]';
+                modalBadge.textContent = 'Session Booking';
+                modalTitle.textContent = 'Join ' + currentTargetName;
+                modalIcon.innerHTML = '<i class="fas fa-calendar-check"></i>';
+                modalSubtitle.textContent = 'Book your spot in an upcoming interactive tutoring session.';
+                selectedLabel.textContent = 'Selected Session';
+                selectedTypeBadge.textContent = 'Session';
+                modalSubmitBtn.innerHTML = '<span>Book Session Now</span> <i class="fas fa-calendar-check"></i>';
+            }
+        }
+
+        function handleEnrollSubmit(event) {
+            event.preventDefault();
+            const studentName = document.getElementById('studentName').value;
+            const parentName = document.getElementById('parentName').value;
+            const email = document.getElementById('studentEmail').value;
+            const phone = document.getElementById('studentPhone').value;
+            const grade = document.getElementById('modalGradeSelect').value;
+            const timing = document.getElementById('modalTimingSelect').value;
+            const subject = document.getElementById('modalSubjectSelect').value;
+            const notes = document.getElementById('studentNotes').value;
+
+            // Save booking to localStorage for client portal persistence
+            try {
+                const existing = JSON.parse(localStorage.getItem('studentBookings') || '[]');
+                existing.push({
+                    id: Date.now(),
+                    type: currentEnrollType,
+                    item: currentTargetName,
+                    studentName,
+                    parentName,
+                    email,
+                    phone,
+                    grade,
+                    timing,
+                    subject,
+                    notes,
+                    date: new Date().toLocaleDateString()
+                });
+                localStorage.setItem('studentBookings', JSON.stringify(existing));
+            } catch (err) {
+                console.warn('LocalStorage save error:', err);
+            }
+
+            // Populate success screen
+            const isCourse = currentEnrollType === 'Course';
+            document.getElementById('successTitle').textContent = isCourse ? 'Enrollment Confirmed!' : 'Session Reserved!';
+            document.getElementById('successMessage').textContent = `Thank you, ${studentName}! Your request for "${currentTargetName}" has been received. Our tutoring director will reach out to ${email} to finalize preparation.`;
+
+            const summaryEl = document.getElementById('successSummary');
+            summaryEl.innerHTML = `
+                <div class="flex justify-between border-b border-slate-200 dark:border-slate-700 pb-1.5">
+                    <span class="text-slate-500 dark:text-slate-400">Program / Focus:</span>
+                    <span class="font-bold text-slate-800 dark:text-white">${currentTargetName} (${currentEnrollType})</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-200 dark:border-slate-700 py-1.5">
+                    <span class="text-slate-500 dark:text-slate-400">Student:</span>
+                    <span class="font-bold text-slate-800 dark:text-white">${studentName}</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-200 dark:border-slate-700 py-1.5">
+                    <span class="text-slate-500 dark:text-slate-400">Grade Level:</span>
+                    <span class="font-bold text-slate-800 dark:text-white">${grade}</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-200 dark:border-slate-700 py-1.5">
+                    <span class="text-slate-500 dark:text-slate-400">Time Slot:</span>
+                    <span class="font-bold text-slate-800 dark:text-white">${timing}</span>
+                </div>
+                <div class="flex justify-between pt-1.5">
+                    <span class="text-slate-500 dark:text-slate-400">Status:</span>
+                    <span class="font-bold text-emerald-600 dark:text-emerald-400"><i class="fas fa-check-circle"></i> Confirmed & Pending Orientation</span>
+                </div>
+            `;
+
+            document.getElementById('enrollForm').classList.add('hidden');
+            document.getElementById('enrollSuccess').classList.remove('hidden');
+        }
+
+        // Close on ESC and backdrop click
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeEnrollModal();
+        });
+
+        document.addEventListener('click', (e) => {
+            const modal = document.getElementById('enrollModal');
+            const dialog = document.getElementById('modalDialog');
+            if (modal && !modal.classList.contains('hidden') && e.target === modal) {
+                closeEnrollModal();
+            }
+        });
+
         document.addEventListener('DOMContentLoaded', () => {
             // Theme toggle
             const themeBtns = document.querySelectorAll('#theme-toggle, #mobile-theme-toggle');

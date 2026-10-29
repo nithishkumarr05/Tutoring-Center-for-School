@@ -461,14 +461,14 @@
     for(let d=1; d<=31; d++){
       const btn = document.createElement('button');
       const has = bookings[d];
-      btn.className = `aspect-square rounded-xl text-[11px] font-black transition flex flex-col items-center justify-center relative hover:bg-[#ecfdf5] text-dark dark:text-white ${d===25?'bg-[#059669] text-white shadow-sm ring-2 ring-[#059669]/30':''}`;
-      btn.innerHTML = `<span>${d}</span>${has ? `<span class="absolute bottom-1.5 w-1.5 h-1.5 rounded-full bg-[#059669] animate-pulse"></span>` : ''}`;
+      btn.className = `aspect-square rounded-xl text-[11px] font-black transition flex flex-col items-center justify-center relative hover:bg-[#ecfdf5] dark:hover:bg-neutral-700 hover:text-[#059669] dark:hover:text-[#10b981] text-dark dark:text-white ${d===25?'bg-[#059669] text-white shadow-sm ring-2 ring-[#059669]/30':''}`;
+      btn.innerHTML = `<span>${d}</span>${has ? `<span class="absolute bottom-1.5 w-1.5 h-1.5 rounded-full bg-[#059669] dark:bg-[#10b981] animate-pulse"></span>` : ''}`;
       btn.onclick = ()=>{
         document.getElementById('calSelectedDate').innerText = `May ${d}`;
         const all = grid.querySelectorAll('button');
-        all.forEach(b => { b.classList.remove('bg-[#059669]','text-white','shadow-sm','ring-2','ring-[#059669]/30'); b.classList.add('text-dark','dark:text-white'); });
+        all.forEach(b => { b.classList.remove('bg-[#059669]','text-white','shadow-sm','ring-2','ring-[#059669]/30','hover:text-[#059669]','dark:hover:text-[#10b981]'); b.classList.add('text-dark','dark:text-white'); });
         btn.classList.add('bg-[#059669]','text-white','shadow-sm','ring-2','ring-[#059669]/30');
-        btn.classList.remove('text-dark','dark:text-white');
+        btn.classList.remove('text-dark','dark:text-white','hover:text-[#059669]','dark:hover:text-[#10b981]');
         loadSchedule(d, bookings[d]);
       };
       grid.appendChild(btn);
